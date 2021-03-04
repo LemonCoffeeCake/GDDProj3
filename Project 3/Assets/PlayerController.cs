@@ -30,11 +30,15 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking;
     private Quaternion weaponInitialRotation;
 
+    public int maxHealth = 10;
+    private int health;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         weaponInitialRotation = weaponCenter.rotation;
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -162,5 +166,11 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(attackCenter.position, attackRange);
+    }
+
+    private void TakeDamage(int amount)
+    {
+        health = Mathf.Max(0, health - amount);
+        print(amount + " damage taken, health is now " + health);
     }
 }
