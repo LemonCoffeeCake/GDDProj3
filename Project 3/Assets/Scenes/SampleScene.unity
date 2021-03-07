@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 176121118}
   - component: {fileID: 176121117}
   - component: {fileID: 176121116}
+  - component: {fileID: 176121120}
   m_Layer: 8
   m_Name: Round Enemy
   m_TagString: Untagged
@@ -260,9 +261,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0.1
-  m_AngularDrag: 0.05
+  m_Mass: 100
+  m_LinearDrag: 100
+  m_AngularDrag: 100
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -343,12 +344,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176121115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2, y: -1.5, z: -0.10554788}
+  m_LocalPosition: {x: 2.04, y: -1.33, z: -0.10554788}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &176121120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176121115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a456b1da7c0e6d34e9edb45c62dab34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Health: 1
+  m_Damage: 2
+  m_MoveSpeed: 3
 --- !u!1 &225785342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,7 +1429,7 @@ GameObject:
   - component: {fileID: 830290427}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1500,7 +1516,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.05
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1967,7 +1983,7 @@ SpriteShapeRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Color: {r: 0.40428087, g: 0.745283, b: 0.42939216, a: 1}
+  m_Color: {r: 0.40392157, g: 0.65442806, b: 0.74509805, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 0}
   m_Sprites: []
