@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isRolling;
     private bool isAttacking;
+    private bool flipSprite;
     private Quaternion weaponInitialRotation;
 
     public int maxHealth = 10;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         weaponInitialRotation = weaponCenter.rotation;
         health = maxHealth;
+        flipSprite = false;
     }
 
     // Update is called once per frame
@@ -95,6 +97,7 @@ public class PlayerController : MonoBehaviour
         if (!isRolling)
         {
             rb.velocity = movementVector * moveSpeed;
+            GetComponent<SpriteRenderer>().flipY = movementVector.x < 0;
         }
         else
         {
@@ -172,5 +175,14 @@ public class PlayerController : MonoBehaviour
     {
         health = Mathf.Max(0, health - amount);
         print(amount + " damage taken, health is now " + health);
+        if (health <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
     }
 }
