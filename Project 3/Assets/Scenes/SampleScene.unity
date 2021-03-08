@@ -364,7 +364,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Health: 1
   m_Damage: 2
-  m_MoveSpeed: 3
+  m_MoveSpeed: 2
+  m_Range: 2
+  m_AttackTimer: 5
 --- !u!1 &225785342
 GameObject:
   m_ObjectHideFlags: 0
