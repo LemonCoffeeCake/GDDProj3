@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (!isRolling)
         {
             rb.velocity = movementVector * moveSpeed;
-            GetComponent<SpriteRenderer>().flipY = movementVector.x < 0;
+            GetComponent<SpriteRenderer>().flipX = movementVector.x < 0;
         }
         else
         {
