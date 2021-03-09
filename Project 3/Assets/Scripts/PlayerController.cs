@@ -31,8 +31,11 @@ public class PlayerController : MonoBehaviour
     private bool flipSprite;
     private Quaternion weaponInitialRotation;
 
-    public int maxHealth = 10;
+    public int maxHealth;
     private int health;
+
+    [SerializeField]
+    private HudController m_HUD;
 
     // Start is called before the first frame update
     void Start()
@@ -175,6 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         health = Mathf.Max(0, health - amount);
         print(amount + " damage taken, health is now " + health);
+        m_HUD.UpdateHealth(1.0f * health / maxHealth);
         if (health <= 0)
         {
             Death();
