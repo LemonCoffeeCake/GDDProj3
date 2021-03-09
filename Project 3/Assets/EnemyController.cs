@@ -18,13 +18,18 @@ public class EnemyController : MonoBehaviour
     private float m_Range;
 
     [SerializeField]
-    private float m_AttackTimer;
+    private float m_AttackCooldown;
+
+    [SerializeField]
+    private float m_WindUpTime;
     #endregion
 
     #region Private Variables
     private Rigidbody2D rb;
     private float prevAttackTime;
     private bool canAttack;
+    private float distToPlayer;
+    private Color defaultCol;
     #endregion
 
     #region Cached Region
@@ -35,26 +40,29 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        defaultCol = GetComponent<SpriteRenderer>().color;
         canAttack = true;
     }
 
     private void Start()
     {
         cr_Player = GameObject.FindWithTag("Player");
+        distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
     }
     #endregion
 
     #region Updates
     private void FixedUpdate()
     {
-        float dist = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
-        if (dist > m_Range)
+        distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
+        if (distToPlayer > m_Range)
         {
             Move();
         }
-        else if (dist <= m_Range && canAttack)
+        else if (canAttack && distToPlayer <= m_Range)
         {
-            AttackPlayer();
+            canAttack = false;
+            StartCoroutine(AttackPlayer());
         }
     }
     #endregion
@@ -95,20 +103,37 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Attacking
-    private void AttackPlayer()
+    private IEnumerator AttackPlayer()
     {
-        //GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
-        prevAttackTime = m_AttackTimer;
-        canAttack = false;
-        StartCoroutine(AttackCooldown());
+        Color startingCol = defaultCol;
+        float elapsed = 0;
+        while (GetComponent<SpriteRenderer>().color != Color.blue && distToPlayer <= m_Range)
+        {
+            GetComponent<SpriteRenderer>().color = Color.Lerp(startingCol, Color.blue, elapsed/m_WindUpTime);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        if (distToPlayer <= m_Range)
+        {
+            cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
+            canAttack = false;
+            GetComponent<SpriteRenderer>().color = Color.blue;
+            StartCoroutine(AttackCooldown(m_AttackCooldown));
+        } else
+        {
+            GetComponent<SpriteRenderer>().color = defaultCol;
+            canAttack = true;
+        }
     }
 
-    private IEnumerator AttackCooldown()
+    private IEnumerator AttackCooldown(float time)
     {
-        while (prevAttackTime > 0)
+        Color col = GetComponent<SpriteRenderer>().color;
+        float elapsed = 0;
+        while (GetComponent<SpriteRenderer>().color != defaultCol)
         {
-            prevAttackTime -= Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = Color.Lerp(col, defaultCol, elapsed/time);
+            elapsed += Time.deltaTime;
             yield return null;
         }
         canAttack = true;
@@ -118,7 +143,11 @@ public class EnemyController : MonoBehaviour
     #region Collison
     public void OnCollisionStay2D(Collision2D collision)
     {
-
+        GameObject other = collision.collider.gameObject;
+        if (other.CompareTag("Player"))
+        {
+            
+        }
     }
     #endregion
 
