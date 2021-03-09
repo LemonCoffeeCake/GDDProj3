@@ -51,7 +51,8 @@ public class EnemyController : MonoBehaviour
         if (dist > m_Range)
         {
             Move();
-        } else if (dist <= m_Range && canAttack)
+        }
+        else if (dist <= m_Range && canAttack)
         {
             AttackPlayer();
         }
@@ -78,7 +79,7 @@ public class EnemyController : MonoBehaviour
 
     #region Health and Death
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         m_Health -= amount;
         if (m_Health <= 0)
@@ -96,7 +97,7 @@ public class EnemyController : MonoBehaviour
     #region Attacking
     private void AttackPlayer()
     {
-        GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        //GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         prevAttackTime = m_AttackTimer;
         canAttack = false;

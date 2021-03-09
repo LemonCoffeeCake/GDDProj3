@@ -5,7 +5,7 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     public Transform target;
-    public float smoothing = 0.05f;
+    public float smoothing = 10f;
     // Whether we want to clamp the camera
     public bool clamp;
     // Bottom left of bound
@@ -27,6 +27,6 @@ public class FollowCamera : MonoBehaviour
             targetPosition.x = Mathf.Clamp(targetPosition.x, minPosition.x, maxPosition.x);
             targetPosition.y = Mathf.Clamp(targetPosition.y, minPosition.y, maxPosition.y);
         }
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing * Time.deltaTime);
     }
 }
