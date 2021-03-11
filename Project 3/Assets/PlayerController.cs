@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,6 +38,13 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 10;
     private int health;
     public float damage = 1f;
+    public float maxStamina = 100;
+    private float stamina;
+    private float staminaRecoveryTimer;
+    private float timeSinceLastAction;
+    public float timeUntilStaminaRecovers = 1f;
+    public float staminaRecoveryPerSecond = 20f;
+    public float rollStaminaCost = 20f;
 
     [SerializeField]
     private HudController m_HUD;
@@ -47,6 +55,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         weaponInitialRotation = weaponCenter.rotation;
         health = maxHealth;
+        m_HUD.UpdateHealth(health);
+        stamina = maxStamina;
+        m_HUD.UpdateStamina(1f);
         initialXScale = transform.localScale.x;
     }
 
@@ -91,13 +102,19 @@ public class PlayerController : MonoBehaviour
             }
             // TODO: link MOVEMENTVECTOR, ISROLLING with animations
             movementVector = new Vector3(x, y, 0f).normalized;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && stamina >= rollStaminaCost)
             {
                 Roll();
             }
             if (Input.GetMouseButtonDown(0) && !isAttacking)
             {
                 Attack();
+            }
+            staminaRecoveryTimer += Time.deltaTime;
+            if (staminaRecoveryTimer >= timeUntilStaminaRecovers)
+            {
+                stamina = Mathf.Min(maxStamina, stamina += staminaRecoveryPerSecond * Time.deltaTime);
+                m_HUD.UpdateStamina(stamina / maxStamina);
             }
         }
         else
@@ -151,6 +168,9 @@ public class PlayerController : MonoBehaviour
         rollVector = movementVector;
         isRolling = true;
         rollSpeed = maxRollSpeed;
+        stamina -= rollStaminaCost;
+        staminaRecoveryTimer = 0f;
+        m_HUD.UpdateStamina(stamina / maxStamina);
     }
 
     private void Attack()
@@ -208,7 +228,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        print("yes");
         Gizmos.DrawWireSphere(attackCenter.position, attackRange);
     }
 
@@ -218,7 +237,7 @@ public class PlayerController : MonoBehaviour
         {
             health = Mathf.Max(0, health - amount);
             print(amount + " damage taken, health is now " + health);
-            m_HUD.UpdateHealth(1.0f * health / maxHealth);
+            m_HUD.UpdateHealth(health);
             if (health <= 0)
             {
                 Death();
@@ -228,6 +247,6 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        Destroy(gameObject);
+        SceneManager.LoadScene("GameOver");
     }
 }
