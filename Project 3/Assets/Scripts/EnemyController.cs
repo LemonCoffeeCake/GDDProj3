@@ -22,6 +22,18 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private float m_WindUpTime;
+
+    [SerializeField]
+    private ItemPickup[] m_drops;
+
+    [SerializeField]
+    private float m_dropRate;
+
+    [SerializeField]
+    private float m_dropMinVal;
+
+    [SerializeField]
+    private float m_dropMaxVal;
     #endregion
 
     #region Private Variables
@@ -100,7 +112,23 @@ public class EnemyController : MonoBehaviour
 
     private void Death()
     {
+        DropItem();
         Destroy(gameObject);
+    }
+
+    private void DropItem()
+    {
+        // TODO: add RNG 
+        if (m_drops.Length != 0)
+        {
+            float isDrop = Random.Range(0f, 100f);
+            if (isDrop < m_dropRate)
+            {
+                int index = Random.Range(0, m_drops.Length);
+                ItemPickup drop = Instantiate(m_drops[index], transform.position, Quaternion.identity);
+                drop.SetValue(Mathf.RoundToInt(Random.Range(m_dropMinVal, m_dropMaxVal)));
+            }   
+        }     
     }
     #endregion
 
@@ -112,7 +140,7 @@ public class EnemyController : MonoBehaviour
         canMove = false;
         while (GetComponent<SpriteRenderer>().color != Color.black)
         {
-            GetComponent<SpriteRenderer>().color = Color.Lerp(startingCol, Color.black, elapsed/m_WindUpTime);
+            GetComponent<SpriteRenderer>().color = Color.Lerp(startingCol, Color.black, elapsed / m_WindUpTime);
             elapsed += Time.deltaTime;
             yield return null;
         }

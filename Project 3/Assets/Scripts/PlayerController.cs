@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
     public float maxRollSpeed = 20f;
     public float rollSpeedDecreaseRate = 5f;
     public float minRollSpeed = 5f;
@@ -37,7 +36,6 @@ public class PlayerController : MonoBehaviour
 
     public int maxHealth = 10;
     private int health;
-    public float damage = 1f;
     public float maxStamina = 100;
     private float stamina;
     private float staminaRecoveryTimer;
@@ -45,6 +43,10 @@ public class PlayerController : MonoBehaviour
     public float timeUntilStaminaRecovers = 1f;
     public float staminaRecoveryPerSecond = 20f;
     public float rollStaminaCost = 20f;
+
+    public Stat damage;
+    public Stat speed;
+    public int gold;
 
     [SerializeField]
     private HudController m_HUD;
@@ -116,6 +118,19 @@ public class PlayerController : MonoBehaviour
                 stamina = Mathf.Min(maxStamina, stamina += staminaRecoveryPerSecond * Time.deltaTime);
                 m_HUD.UpdateStamina(stamina / maxStamina);
             }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].gameObject.CompareTag("Interactable"))
+                    {
+                        Interactable interactable = colliders[i].gameObject.GetComponent<Interactable>();
+                        interactable.Interact();
+                        break;
+                    }
+                }
+            }
         }
         else
         {
@@ -135,7 +150,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isRolling)
         {
-            rb.velocity = movementVector * moveSpeed;
+            rb.velocity = movementVector * speed.GetValue();
         }
         else
         {
@@ -175,19 +190,17 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        // TODO: connect with the enemy script, make enemy take damage
         // The attack is split into 3 sections: the weapon going down, the weapon going up, and the cooldown
         weaponInitialRotation = weaponCenter.rotation;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackCenter.position, attackRange, enemyLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
-            //print(enemy.gameObject.name + " hit");
             if (enemy.GetComponent<SpriteRenderer>())
             {
                 enemy.GetComponent<SpriteRenderer>().color = new Color(
       Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
             }
-            enemy.GetComponent<EnemyController>().TakeDamage(1f);
+            enemy.GetComponent<EnemyController>().TakeDamage(damage.GetValue());
         }
         isAttacking = true;
         StartCoroutine(AttackFirstHalf(attackFirstHalfDuration, attackSecondHalfDuration, attackCoolDown));
@@ -235,7 +248,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isRolling)
         {
-            health = Mathf.Max(0, health - amount);
+            health = Mathf.Clamp(health - amount, 0, maxHealth);          
             print(amount + " damage taken, health is now " + health);
             m_HUD.UpdateHealth(health);
             if (health <= 0)
@@ -244,6 +257,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void RecoverStamina()
+    {
+        stamina = maxStamina;
+        m_HUD.UpdateStamina(1f);
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+    }
+
 
     private void Death()
     {
