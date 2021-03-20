@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Inventory : MonoBehaviour
 {
@@ -8,6 +9,12 @@ public class Inventory : MonoBehaviour
     public static Inventory instance;
     public List<Item> items = new List<Item>();
     public int maxCapacity;
+    public int gold;
+    private bool isOpen;
+    public GameObject inventoryUI;
+    public TextMeshProUGUI goldText;
+    public GameObject ItemPrefab;
+    public GameObject Grid;
 
     private void Awake()
     {
@@ -18,7 +25,24 @@ public class Inventory : MonoBehaviour
         instance = this;
     }
 
-    public bool Add(Item item)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            isOpen = !isOpen;
+            if (isOpen)
+            {
+                inventoryUI.SetActive(true);
+                UpdateUI();
+            }
+            else
+            {
+                inventoryUI.SetActive(false);
+            }
+        }
+    }
+
+    public void Add(Item item)
     {
         if (items.Count < maxCapacity)
         {
@@ -31,9 +55,11 @@ public class Inventory : MonoBehaviour
             {
                 player.speed.AddModifier(item.value);
             }
-            return true;
+            if (isOpen)
+            {
+                UpdateUI();
+            }
         }
-        return false;
     }
 
     public void Remove(Item item)
@@ -47,5 +73,55 @@ public class Inventory : MonoBehaviour
             player.speed.RemoveModifier(item.value);
         }
         items.Remove(item);
+        if (isOpen)
+        {
+            UpdateUI();
+        }
+    }
+
+    public void RemoveAt(int index)
+    {
+        Item item = items[index];
+        if (item.type == Item.Type.DamageUp)
+        {
+            player.damage.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.SpeedUp)
+        {
+            player.speed.RemoveModifier(item.value);
+        }
+        items.Remove(item);
+        if (isOpen)
+        {
+            UpdateUI();
+        }
+    }
+
+    public bool IsFull()
+    {
+        return items.Count >= maxCapacity;
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        goldText.text = gold.ToString();
+    }
+
+    private void UpdateUI()
+    {
+        foreach (Transform child in Grid.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        for (int i = 0; i < items.Count; i++)
+        {
+            GameObject prefabInstance = Instantiate(ItemPrefab);
+            prefabInstance.transform.SetParent(Grid.transform);
+            ItemUI itemUI = prefabInstance.GetComponent<ItemUI>();
+            Item item = items[i];
+            itemUI.SetName(item.name + " +" + item.value);
+            itemUI.SetSprite(item.icon);
+        }
     }
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Small Coin
   m_EditorClassIdentifier: 
   name: Small Coin
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: -488721925442295091, guid: 226c0b4acd05bb2429a8417caa0e0af5, type: 3}
   type: 0
   value: 1
+  price: 0

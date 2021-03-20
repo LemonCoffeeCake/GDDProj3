@@ -11,4 +11,5 @@ public class Item : ScriptableObject
     DamageUp, SpeedUp }
     public Type type;
     public float value;
+    public float price;
 }

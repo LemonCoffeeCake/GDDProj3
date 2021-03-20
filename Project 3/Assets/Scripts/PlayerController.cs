@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
     public Stat damage;
     public Stat speed;
-    public int gold;
 
     [SerializeField]
     private HudController m_HUD;
@@ -263,12 +262,6 @@ public class PlayerController : MonoBehaviour
         stamina = maxStamina;
         m_HUD.UpdateStamina(1f);
     }
-
-    public void AddGold(int amount)
-    {
-        gold += amount;
-    }
-
 
     private void Death()
     {
