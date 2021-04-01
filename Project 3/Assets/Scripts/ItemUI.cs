@@ -8,12 +8,10 @@ public class ItemUI : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public Image image;
-
-    void Start()
-    {
-
-
-    }
+    public TextMeshProUGUI dropText;
+    public Image deleteButtonBG;
+    public Color dropColor = Color.red;
+    public Color sellColor = Color.yellow;
 
     public void SetSprite(Sprite s)
     {
@@ -25,10 +23,39 @@ public class ItemUI : MonoBehaviour
         nameText.text = s;
     }
 
-    public void DeleteItem()
+    public void SetDrop(bool isDrop)
     {
-        Inventory.instance.RemoveAt(transform.GetSiblingIndex());
-        Destroy(gameObject);
+        if (isDrop)
+        {
+            dropText.text = "X";
+            deleteButtonBG.color = dropColor;
+        }
+        else
+        {
+            dropText.text = "$";
+            deleteButtonBG.color = sellColor;
+        }
     }
 
+    public void DeleteItem()
+    {
+        if (transform.parent.parent.parent.name == "ShopBG")
+        {
+            if (Shop.instance.isOpen)
+            {
+                Shop.instance.BuyAt(transform.GetSiblingIndex());
+            }
+        }
+        else
+        {
+            if (Shop.instance.isOpen)
+            {
+                Inventory.instance.SellAt(transform.GetSiblingIndex());
+            }
+            else
+            {
+                Inventory.instance.RemoveAt(transform.GetSiblingIndex());
+            }
+        }
+    }
 }

@@ -97,6 +97,26 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void SellAt(int index)
+    {
+        Item item = items[index];
+        if (item.type == Item.Type.DamageUp)
+        {
+            player.damage.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.SpeedUp)
+        {
+            player.speed.RemoveModifier(item.value);
+        }
+        items.Remove(item);
+        Shop.instance.Add(item);
+        AddGold(Mathf.RoundToInt(item.value));
+        if (isOpen)
+        {
+            UpdateUI();
+        }
+    }
+
     public bool IsFull()
     {
         return items.Count >= maxCapacity;
@@ -108,7 +128,7 @@ public class Inventory : MonoBehaviour
         goldText.text = gold.ToString();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         foreach (Transform child in Grid.transform)
         {
@@ -120,8 +140,16 @@ public class Inventory : MonoBehaviour
             prefabInstance.transform.SetParent(Grid.transform);
             ItemUI itemUI = prefabInstance.GetComponent<ItemUI>();
             Item item = items[i];
-            itemUI.SetName(item.name + " +" + item.value);
+            itemUI.SetName(item.name);
             itemUI.SetSprite(item.icon);
+            if (Shop.instance.isOpen)
+            {
+                itemUI.SetDrop(false);
+            }
+            else
+            {
+                itemUI.SetDrop(true);
+            }
         }
     }
 }

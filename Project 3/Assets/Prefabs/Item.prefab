@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.75294125, g: 0.7490196, b: 0.3019608, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -298,6 +298,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1690081477657276233}
   image: {fileID: 1690081478468513737}
+  dropText: {fileID: 1690081477904644883}
+  deleteButtonBG: {fileID: 1690081476529773825}
+  dropColor: {r: 1, g: 0, b: 0, a: 1}
+  sellColor: {r: 0.75294125, g: 0.7490196, b: 0.3019608, a: 1}
 --- !u!1 &1690081477657276235
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: X
+  m_text: $
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -6,7 +6,6 @@ public class ItemPickup : Interactable
 {
     public Item item;
     private PlayerController player;
-    private float instanceValue;
 
     private void Start()
     {
@@ -22,7 +21,7 @@ public class ItemPickup : Interactable
         if (item.type == Item.Type.HealthPotion)
         {
             player.TakeDamage(
-                Mathf.RoundToInt(-instanceValue));
+                Mathf.RoundToInt(-item.value));
             Destroy(gameObject);
         }
         else if (item.type == Item.Type.StaminaPotion)
@@ -32,7 +31,7 @@ public class ItemPickup : Interactable
         }
         else if (item.type == Item.Type.Gold)
         {
-            Inventory.instance.AddGold(Mathf.RoundToInt(instanceValue));
+            Inventory.instance.AddGold(Mathf.RoundToInt(item.value));
             Destroy(gameObject);
         }
         else
@@ -43,16 +42,11 @@ public class ItemPickup : Interactable
                 itemInstance.name = item.name;
                 itemInstance.icon = item.icon;
                 itemInstance.type = item.type;
-                itemInstance.value = instanceValue;
+                itemInstance.value = item.value;
                 itemInstance.price = item.price;
                 Inventory.instance.Add(itemInstance);
                 Destroy(gameObject);
             }
         }
-    }
-
-    public void SetValue(float newValue)
-    {
-        instanceValue = newValue;
     }
 }

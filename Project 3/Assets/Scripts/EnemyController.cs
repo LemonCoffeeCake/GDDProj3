@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -38,11 +39,11 @@ public class EnemyController : MonoBehaviour
 
     #region Private Variables
     private Rigidbody2D rb;
-    private float prevAttackTime;
     private bool canAttack;
     private bool canMove;
     private float distToPlayer;
     private Color defaultCol;
+    private NavMeshAgent agent;
     #endregion
 
     #region Cached Region
@@ -62,6 +63,12 @@ public class EnemyController : MonoBehaviour
     {
         cr_Player = GameObject.FindWithTag("Player");
         distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.speed = m_MoveSpeed;
+        agent.stoppingDistance = m_Range;
+
     }
     #endregion
 
@@ -71,7 +78,7 @@ public class EnemyController : MonoBehaviour
         distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
         if (canMove && distToPlayer > m_Range)
         {
-            Move();
+            NavMeshMove();
         }
         else if (canAttack && distToPlayer <= m_Range)
         {
@@ -82,12 +89,23 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Movement
+    private void NavMeshMove()
+    {
+        Vector2 playerPos = cr_Player.transform.position;
+        agent.SetDestination(playerPos);
+    }
+
     private void Move()
     {
-        // transform.position = Vector2.MoveTowards(cr_Player.transform.position, transform.position, m_MoveSpeed * Time.deltaTime);
         Vector2 dir = cr_Player.transform.position - transform.position;
         float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        rb.rotation = ang;
+        if (dir.x > 0)
+        {
+             GetComponent<SpriteRenderer>().flipX = false;
+        } else
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
         dir.Normalize();
         Movement(dir);
 
@@ -126,7 +144,6 @@ public class EnemyController : MonoBehaviour
             {
                 int index = Random.Range(0, m_drops.Length);
                 ItemPickup drop = Instantiate(m_drops[index], transform.position, Quaternion.identity);
-                drop.SetValue(Mathf.RoundToInt(Random.Range(m_dropMinVal, m_dropMaxVal)));
             }   
         }     
     }

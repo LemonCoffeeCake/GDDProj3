@@ -50,7 +50,6 @@ public class Chest : Interactable
             {
                 int index = Random.Range(0, m_drops.Length);
                 ItemPickup drop = Instantiate(m_drops[index], transform.position - new Vector3(0f, 1f, 0f), Quaternion.identity);
-                drop.SetValue(Mathf.RoundToInt(Random.Range(m_dropMinVal, m_dropMaxVal)));
             }
         }
     }
