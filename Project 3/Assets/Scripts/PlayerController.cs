@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private IEnumerator AttackCoolDown(float coolDownTime)
-    {    
+    {
         while (coolDownTime > 0f)
         {
             coolDownTime -= Time.deltaTime;
@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isRolling)
         {
-            health = Mathf.Clamp(health - amount, 0, maxHealth);          
+            health = Mathf.Clamp(health - amount, 0, maxHealth);
             print(amount + " damage taken, health is now " + health);
             m_HUD.UpdateHealth(health);
             if (health <= 0)
@@ -266,5 +266,17 @@ public class PlayerController : MonoBehaviour
     private void Death()
     {
         SceneManager.LoadScene("GameOver");
+    }
+
+    public void ExportStats(GameManager manage){
+        manage.currHealth = health;
+        manage.currDamage = damage;
+        manage.currSpeed = speed;
+    }
+
+    public void ImportStats(GameManager manage){
+        speed = manage.currSpeed;
+        damage = manage.currDamage;
+        health = manage.currHealth;
     }
 }

@@ -41,14 +41,14 @@ public class ItemUI : MonoBehaviour
     {
         if (transform.parent.parent.parent.name == "ShopBG")
         {
-            if (Shop.instance.isOpen)
+            if (Shop.instance != null && Shop.instance.isOpen)
             {
                 Shop.instance.BuyAt(transform.GetSiblingIndex());
             }
         }
         else
         {
-            if (Shop.instance.isOpen)
+            if (Shop.instance != null && Shop.instance.isOpen)
             {
                 Inventory.instance.SellAt(transform.GetSiblingIndex());
             }

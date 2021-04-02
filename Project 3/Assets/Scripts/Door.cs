@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,10 +9,13 @@ public class Door : MonoBehaviour
 
     private GameObject[] enemies;
     private GameObject player;
+    private GameObject manager;
+    public string next;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        manager = GameObject.FindWithTag("GameController");
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -20,12 +24,9 @@ public class Door : MonoBehaviour
          {
              enemies = GameObject.FindGameObjectsWithTag("Enemy");
              if (enemies.Length == 0) {
-                MoveRoom();
+                manager.GetComponent<GameManager>().Instance().LoadNextRoom();
             }
          }
     }
 
-    private void MoveRoom() {
-        SceneManager.LoadScene("Level1");
-    }
 }

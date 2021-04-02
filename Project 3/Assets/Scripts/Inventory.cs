@@ -142,7 +142,7 @@ public class Inventory : MonoBehaviour
             Item item = items[i];
             itemUI.SetName(item.name);
             itemUI.SetSprite(item.icon);
-            if (Shop.instance.isOpen)
+            if (Shop.instance != null && Shop.instance.isOpen)
             {
                 itemUI.SetDrop(false);
             }
@@ -151,5 +151,17 @@ public class Inventory : MonoBehaviour
                 itemUI.SetDrop(true);
             }
         }
+    }
+
+    public Inventory Instance(){return instance;}
+
+    public void ExportStats(GameManager manage){
+        manage.currItems = items;
+        manage.currGold = gold;
+    }
+
+    public void ImportStats(GameManager manage){
+        gold = manage.currGold;
+        items = manage.currItems;
     }
 }
