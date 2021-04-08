@@ -10,19 +10,19 @@ public class EnemyController : MonoBehaviour
     private float m_Health;
 
     [SerializeField]
-    private int m_Damage;
+    protected int m_Damage;
 
     [SerializeField]
     private float m_MoveSpeed;
 
     [SerializeField]
-    private float m_Range;
+    protected float m_Range;
 
     [SerializeField]
-    private float m_AttackCooldown;
+    protected float m_AttackCooldown;
 
     [SerializeField]
-    private float m_WindUpTime;
+    protected float m_WindUpTime;
 
     [SerializeField]
     private ItemPickup[] m_drops;
@@ -35,19 +35,33 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private float m_dropMaxVal;
+
+    [SerializeField]
+    private Color frozenColor;
+
+    [SerializeField]
+    private Color poisonedColor;
+
     #endregion
 
     #region Private Variables
-    private Rigidbody2D rb;
-    private bool canAttack;
-    private bool canMove;
-    private float distToPlayer;
-    private Color defaultCol;
-    private NavMeshAgent agent;
+    protected Rigidbody2D rb;
+    protected bool canAttack;
+    protected bool canMove;
+    protected float distToPlayer;
+    protected Color defaultCol;
+    protected NavMeshAgent agent;
+    protected Animator anim;
+    protected SpriteRenderer spriteR;
+    public bool isFrozen;
+    public bool isPoisoned;
+    protected Coroutine frozenIE;
+    protected Coroutine poisonIE;
+    protected Coroutine updatePoisonIE;
     #endregion
 
     #region Cached Region
-    private GameObject cr_Player;
+    protected GameObject cr_Player;
     #endregion
 
     #region Initialization
@@ -68,22 +82,36 @@ public class EnemyController : MonoBehaviour
         agent.updateUpAxis = false;
         agent.speed = m_MoveSpeed;
         agent.stoppingDistance = m_Range;
-
+        anim = GetComponent<Animator>();
+        spriteR = GetComponent<SpriteRenderer>();
+        frozenColor = new Color(frozenColor.r, frozenColor.g, frozenColor.b, 255);
+        poisonedColor = new Color(poisonedColor.r, poisonedColor.g, poisonedColor.b, 255);
     }
     #endregion
 
     #region Updates
     private void FixedUpdate()
     {
-        distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
-        if (canMove && distToPlayer > m_Range)
+        if (!isFrozen)
         {
-            NavMeshMove();
-        }
-        else if (canAttack && distToPlayer <= m_Range)
-        {
-            canAttack = false;
-            StartCoroutine(AttackPlayer());
+            distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
+            if (canMove && distToPlayer > m_Range)
+            {
+                if (cr_Player.transform.position.x - transform.position.x < 0)
+                {
+                    spriteR.flipX = true;
+                }
+                else
+                {
+                    spriteR.flipX = false;
+                }
+                NavMeshMove();
+            }
+            else if (canAttack && distToPlayer <= m_Range)
+            {
+                canAttack = false;
+                StartCoroutine(AttackPlayer());
+            }
         }
     }
     #endregion
@@ -150,35 +178,48 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Attacking
-    private IEnumerator AttackPlayer()
+    private bool attackPathClear()
     {
-        Color startingCol = defaultCol;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, cr_Player.transform.position);
+        foreach (RaycastHit2D obj in hits)
+        {
+            if (obj.collider.gameObject.CompareTag("Obstacle")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected virtual IEnumerator AttackPlayer()
+    {
         float elapsed = 0;
         canMove = false;
-        while (GetComponent<SpriteRenderer>().color != Color.black)
+        anim.SetBool("Attacking", true);
+        while (elapsed < m_WindUpTime && !isFrozen)
         {
-            GetComponent<SpriteRenderer>().color = Color.Lerp(startingCol, Color.black, elapsed / m_WindUpTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        Vector2 toPlayer = cr_Player.transform.position - transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer, m_Range, LayerMask.GetMask("Player"));
+        anim.SetBool("Attacking", false);
+        Vector2 attackVector = new Vector2(m_Range, 0);
+        if (cr_Player.transform.position.x - transform.position.x < 0)
+        {
+            attackVector = -1 * attackVector;
+        } 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, attackVector, m_Range, LayerMask.GetMask("Player"));
         if (hit == true && hit.collider.CompareTag("Player"))
         {
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         }
         canAttack = false;
-        // GetComponent<SpriteRenderer>().color = Color.black;
-        StartCoroutine(AttackCooldown(m_AttackCooldown));
+        StartCoroutine(AttackCooldown());
     }
 
-    private IEnumerator AttackCooldown(float time)
+    protected IEnumerator AttackCooldown()
     {
-        Color col = GetComponent<SpriteRenderer>().color;
         float elapsed = 0;
-        while (GetComponent<SpriteRenderer>().color != defaultCol)
+        while (elapsed < m_AttackCooldown && !isFrozen)
         {
-            GetComponent<SpriteRenderer>().color = Color.Lerp(col, defaultCol, elapsed/time);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -188,14 +229,78 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Collison
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject other = collision.collider.gameObject;
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        {
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+        }
+    }
+
     public void OnCollisionStay2D(Collision2D collision)
     {
         GameObject other = collision.collider.gameObject;
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
-            
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
         }
     }
     #endregion
 
+    public void ApplyPoison(float duration)
+    {
+        if (poisonIE == null)
+        {
+            updatePoisonIE = StartCoroutine(UpdatePoisonBool(duration));
+            poisonIE = StartCoroutine(Poison(duration));
+        }
+        else
+        {
+            StopCoroutine(poisonIE);
+            StopCoroutine(updatePoisonIE);
+            updatePoisonIE = StartCoroutine(UpdatePoisonBool(duration));
+            poisonIE = StartCoroutine(Poison(duration));
+        }
+    }
+
+    public void ApplyIce(float duration)
+    {
+        if (frozenIE == null)
+        {
+            frozenIE = StartCoroutine(Freeze(duration));
+        }
+        else
+        {
+            StopCoroutine(frozenIE);
+            frozenIE = StartCoroutine(Freeze(duration));
+        }
+    }
+
+    private IEnumerator Freeze(float duration)
+    {
+        isFrozen = true;
+        spriteR.color = frozenColor;
+        yield return new WaitForSeconds(duration * 5f);
+        isFrozen = false;
+        spriteR.color = defaultCol;
+    }
+
+    private IEnumerator Poison(float duration)
+    {
+        while(isPoisoned)
+        {
+            yield return new WaitForSeconds(1f);
+            TakeDamage(1f);
+        }
+    }
+
+    private IEnumerator UpdatePoisonBool(float duration)
+    {
+        isPoisoned = true;
+        spriteR.color = poisonedColor;
+        yield return new WaitForSeconds(duration * 5f);
+        isPoisoned = false;
+        spriteR.color = defaultCol;
+    }
 }

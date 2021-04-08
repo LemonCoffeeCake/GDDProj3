@@ -8,7 +8,7 @@ public class Item : ScriptableObject
     public string name = "New Item";
     public Sprite icon;
     public enum Type { Gold, HealthPotion, StaminaPotion,
-    DamageUp, SpeedUp }
+    DamageUp, SpeedUp, SwordUp, Poison, Ice, Lightning }
     public Type type;
     public float value;
     public float price;

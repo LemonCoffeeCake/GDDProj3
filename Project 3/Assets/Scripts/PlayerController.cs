@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking;
     private Quaternion weaponInitialRotation;
     private float initialXScale;
+    private Animator anim;
 
     public int maxHealth = 10;
     private int health;
@@ -43,9 +44,18 @@ public class PlayerController : MonoBehaviour
     public float timeUntilStaminaRecovers = 1f;
     public float staminaRecoveryPerSecond = 20f;
     public float rollStaminaCost = 20f;
+    private float prevSwordSize;
+    public GameObject swordSprite;
+    private Vector3 swordInitialScale;
+    public GameObject lightningPrefab;
+    public float lightningRadius;
 
     public Stat damage;
     public Stat speed;
+    public Stat sword;
+    public Stat poison;
+    public Stat ice;
+    public Stat lightning;
 
     [SerializeField]
     private HudController m_HUD;
@@ -60,11 +70,19 @@ public class PlayerController : MonoBehaviour
         stamina = maxStamina;
         m_HUD.UpdateStamina(1f);
         initialXScale = transform.localScale.x;
+        anim = GetComponent<Animator>();
+        swordInitialScale = swordSprite.transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
+        float swordValue = sword.GetValue();
+        if (swordValue != prevSwordSize)
+        {
+            swordSprite.transform.localScale = swordInitialScale * (1 + swordValue / 2f);
+            prevSwordSize = swordValue;
+        }
         //WASD to move, SPACE to roll, LEFT CLICK to attack.
         if (!isRolling)
         {
@@ -73,18 +91,26 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 y += 1;
+                anim.SetBool("Walking", true);
             }
             if (Input.GetKey(KeyCode.S))
             {
                 y -= 1;
+                anim.SetBool("Walking", true);
             }
             if (Input.GetKey(KeyCode.A))
             {
                 x -= 1;
+                anim.SetBool("Walking", true);
             }
             if (Input.GetKey(KeyCode.D))
             {
                 x += 1;
+                anim.SetBool("Walking", true);
+            }
+            if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.D))
+            {
+                anim.SetBool("Walking", false);
             }
             if (!isAttacking)
             {
@@ -185,13 +211,67 @@ public class PlayerController : MonoBehaviour
         stamina -= rollStaminaCost;
         staminaRecoveryTimer = 0f;
         m_HUD.UpdateStamina(stamina / maxStamina);
+        anim.SetTrigger("RollTrigger");
     }
 
     private void Attack()
     {
         // The attack is split into 3 sections: the weapon going down, the weapon going up, and the cooldown
         weaponInitialRotation = weaponCenter.rotation;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackCenter.position, attackRange, enemyLayer);
+        float newRange = attackRange * (1f + sword.GetValue() / 5f);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackCenter.position, newRange, enemyLayer);
+        float t_poison = poison.GetValue();
+        float t_ice = ice.GetValue();
+        float t_lightning = lightning.GetValue();
+        if (t_lightning != 0 && hitEnemies.Length != 0)
+        {
+            Collider2D[] lightningEnemies = Physics2D.OverlapCircleAll(transform.position, lightningRadius, enemyLayer);
+            if (lightningEnemies.Length == 1)
+            {
+                lightningEnemies[0].GetComponent<EnemyController>().TakeDamage(1f);
+            }
+            else
+            {
+                int numToChain = Mathf.Min(Mathf.RoundToInt(1 + t_lightning), lightningEnemies.Length);
+                List<Vector3> hitPlaces = new List<Vector3>();
+                List<Collider2D> enemiesToTakeDamage = new List<Collider2D>();
+                print("length" + lightningEnemies.Length);
+                Vector3 closest = lightningEnemies[0].transform.position;
+                float minDist = Vector3.Distance(transform.position, closest);
+                Collider2D closestEnemy = lightningEnemies[0];
+                for (int i = 0; i < lightningEnemies.Length; i++)
+                {
+                    Vector3 pos = lightningEnemies[i].transform.position;
+                    if (Vector3.Distance(transform.position, pos) < minDist)
+                    {
+                        minDist = Vector3.Distance(transform.position, pos);
+                        closest = pos;
+                        closestEnemy = lightningEnemies[i];
+                    }
+                }
+                hitPlaces.Add(closest);
+                enemiesToTakeDamage.Add(closestEnemy);
+                int num = 0;
+                while (enemiesToTakeDamage.Count - 1 < t_lightning && num < numToChain)
+                {
+                    print(Time.time);
+                    Collider2D e = lightningEnemies[num];
+                    Vector3 pos = e.transform.position;
+                    if (!enemiesToTakeDamage.Contains(e))
+                    {
+                        hitPlaces.Add(pos);
+                        enemiesToTakeDamage.Add(e);
+                    }
+                    num++;
+                }
+                GameObject lightningInstance = Instantiate(lightningPrefab, closest, Quaternion.identity);
+                lightningInstance.GetComponent<Lightning>().Hit(hitPlaces);
+                foreach (Collider2D enemy in enemiesToTakeDamage)
+                {
+                    enemy.GetComponent<EnemyController>().TakeDamage(1f);
+                }
+            }
+        }
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.GetComponent<SpriteRenderer>())
@@ -199,7 +279,16 @@ public class PlayerController : MonoBehaviour
                 enemy.GetComponent<SpriteRenderer>().color = new Color(
       Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
             }
-            enemy.GetComponent<EnemyController>().TakeDamage(damage.GetValue());
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            enemyController.TakeDamage(damage.GetValue());
+            if (t_poison != 0)
+            {
+                enemyController.ApplyPoison(t_poison);
+            }
+            if (t_ice != 0)
+            {
+                enemyController.ApplyIce(t_ice);
+            }
         }
         isAttacking = true;
         StartCoroutine(AttackFirstHalf(attackFirstHalfDuration, attackSecondHalfDuration, attackCoolDown));
@@ -248,7 +337,6 @@ public class PlayerController : MonoBehaviour
         if (!isRolling)
         {
             health = Mathf.Clamp(health - amount, 0, maxHealth);
-            print(amount + " damage taken, health is now " + health);
             m_HUD.UpdateHealth(health);
             if (health <= 0)
             {

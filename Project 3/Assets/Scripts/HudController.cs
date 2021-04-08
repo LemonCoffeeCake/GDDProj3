@@ -31,10 +31,9 @@ public class HudController : MonoBehaviour
 
     public void UpdateHealth(int health)
     {
-        print(health);
         for (int i = 0; i < health; i++)
         {
-            m_Hearts[i].color = Color.red;
+            m_Hearts[i].color = Color.white;
         }
         for (int i = health; i < m_Hearts.Length; i++)
         {

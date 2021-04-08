@@ -55,6 +55,22 @@ public class Inventory : MonoBehaviour
             {
                 player.speed.AddModifier(item.value);
             }
+            else if (item.type == Item.Type.SwordUp)
+            {
+                player.sword.AddModifier(item.value);
+            }
+            else if (item.type == Item.Type.Poison)
+            {
+                player.poison.AddModifier(item.value);
+            }
+            else if (item.type == Item.Type.Ice)
+            {
+                player.ice.AddModifier(item.value);
+            }
+            else if (item.type == Item.Type.Lightning)
+            {
+                player.lightning.AddModifier(item.value);
+            }
             if (isOpen)
             {
                 UpdateUI();
@@ -71,6 +87,22 @@ public class Inventory : MonoBehaviour
         else if (item.type == Item.Type.SpeedUp)
         {
             player.speed.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.SwordUp)
+        {
+            player.sword.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Poison)
+        {
+            player.poison.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Ice)
+        {
+            player.ice.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Lightning)
+        {
+            player.lightning.RemoveModifier(item.value);
         }
         items.Remove(item);
         if (isOpen)
@@ -90,6 +122,22 @@ public class Inventory : MonoBehaviour
         {
             player.speed.RemoveModifier(item.value);
         }
+        else if (item.type == Item.Type.SwordUp)
+        {
+            player.sword.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Poison)
+        {
+            player.poison.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Ice)
+        {
+            player.ice.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Lightning)
+        {
+            player.lightning.RemoveModifier(item.value);
+        }
         items.Remove(item);
         if (isOpen)
         {
@@ -107,6 +155,22 @@ public class Inventory : MonoBehaviour
         else if (item.type == Item.Type.SpeedUp)
         {
             player.speed.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.SwordUp)
+        {
+            player.sword.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Poison)
+        {
+            player.poison.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Ice)
+        {
+            player.ice.RemoveModifier(item.value);
+        }
+        else if (item.type == Item.Type.Lightning)
+        {
+            player.lightning.RemoveModifier(item.value);
         }
         items.Remove(item);
         Shop.instance.Add(item);
