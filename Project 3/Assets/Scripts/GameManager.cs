@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,11 +22,11 @@ public class GameManager : MonoBehaviour
 
     void Awake(){
         if (instance == null) {
-            DontDestroyOnLoad(gameObject);
             instance = this;
         } else if (instance != this){
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     public GameManager Instance() {return instance;}
@@ -34,17 +34,18 @@ public class GameManager : MonoBehaviour
     public void LoadNextRoom(){
         PlayerBeforeChange = GameObject.FindWithTag("Player");
         InventBefore = GameObject.FindWithTag("Inventory");
-        PlayerBeforeChange.GetComponent<PlayerController>().ExportStats(this);
-        InventBefore.GetComponent<Inventory>().Instance().ExportStats(this);
+        PlayerBeforeChange.GetComponent<PlayerController>().ExportStats(instance);
+        InventBefore.GetComponent<Inventory>().Instance().ExportStats(instance);
         numRoomsComplete += 1;
         if(numRoomsComplete % 6 == 0) {
             SceneManager.LoadScene("Level2");
         } else {
-            SceneManager.LoadScene("Level1");
+            int roomNum = Random.Range(3, 7);
+            SceneManager.LoadScene("Level" + roomNum.ToString());
         }
         PlayerAfterChange = GameObject.FindWithTag("Player");
         InventAfter = GameObject.FindWithTag("Inventory");
-        PlayerAfterChange.GetComponent<PlayerController>().ImportStats(this);
-        InventAfter.GetComponent<Inventory>().Instance().ImportStats(this);
+        PlayerAfterChange.GetComponent<PlayerController>().ImportStats(instance);
+        InventAfter.GetComponent<Inventory>().Instance().ImportStats(instance);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -358,13 +358,13 @@ public class PlayerController : MonoBehaviour
 
     public void ExportStats(GameManager manage){
         manage.currHealth = health;
-        manage.currDamage = damage;
-        manage.currSpeed = speed;
+        manage.currDamage = new Stat(damage);
+        manage.currSpeed = new Stat(speed);
     }
 
     public void ImportStats(GameManager manage){
-        speed = manage.currSpeed;
-        damage = manage.currDamage;
+        speed = new Stat(manage.currSpeed);
+        damage = new Stat(manage.currDamage);
         health = manage.currHealth;
     }
 }

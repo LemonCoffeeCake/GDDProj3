@@ -6,7 +6,12 @@ using UnityEngine;
 public class Stat
 {
     public float baseValue;
-    private List<float> modifiers = new List<float>();
+    public List<float> modifiers = new List<float>();
+
+    public Stat(Stat s){
+        baseValue = s.baseValue;
+        modifiers = new List<float>(s.modifiers);
+    }
 
     public float GetValue()
     {

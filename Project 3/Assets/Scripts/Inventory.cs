@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -220,12 +220,12 @@ public class Inventory : MonoBehaviour
     public Inventory Instance(){return instance;}
 
     public void ExportStats(GameManager manage){
-        manage.currItems = items;
+        manage.currItems = new List<Item>(items);
         manage.currGold = gold;
     }
 
     public void ImportStats(GameManager manage){
         gold = manage.currGold;
-        items = manage.currItems;
+        items = new List<Item>(manage.currItems);
     }
 }
