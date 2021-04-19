@@ -9,6 +9,7 @@ TagManager:
   - Interactable
   - Inventory
   - Obstacle
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

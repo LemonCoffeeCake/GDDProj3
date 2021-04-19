@@ -18,11 +18,17 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
-        {
-            return;
+        if (instance == null) {
+            instance = this;
+        } else if (instance != this){
+            instance.inventoryUI = this.inventoryUI;
+            instance.goldText = this.goldText;
+            instance.goldText.text = instance.gold.ToString();
+            instance.Grid = this.Grid;
+            Destroy(this.gameObject);
         }
-        instance = this;
+        DontDestroyOnLoad(gameObject);
+        instance.player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -145,6 +151,15 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void RemoveAll()
+    {
+        print("removing");
+        for (int i = items.Count; i > 0; i--)
+        {
+            RemoveAt(i);
+        }
+    }
+
     public void SellAt(int index)
     {
         Item item = items[index];
@@ -218,14 +233,4 @@ public class Inventory : MonoBehaviour
     }
 
     public Inventory Instance(){return instance;}
-
-    public void ExportStats(GameManager manage){
-        manage.currItems = new List<Item>(items);
-        manage.currGold = gold;
-    }
-
-    public void ImportStats(GameManager manage){
-        gold = manage.currGold;
-        items = new List<Item>(manage.currItems);
-    }
 }

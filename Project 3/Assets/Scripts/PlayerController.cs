@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     public GameObject lightningPrefab;
     public float lightningRadius;
 
+    public static PlayerController instance;
+
     public Stat damage;
     public Stat speed;
     public Stat sword;
@@ -59,6 +61,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private HudController m_HUD;
+
+    void Awake(){
+        if (instance == null) {
+            instance = this;
+        } else if (instance != this){
+            instance.m_HUD = this.m_HUD;
+            m_HUD.UpdateHealth(instance.health);
+            Destroy(this.gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -353,6 +366,10 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
+        instance = null;
+        Inventory.instance = null;
+        GameManager.instance.ResetLevelCount();
+        Destroy(this.gameObject);
         SceneManager.LoadScene("GameOver");
     }
 
@@ -366,5 +383,11 @@ public class PlayerController : MonoBehaviour
         speed = new Stat(manage.currSpeed);
         damage = new Stat(manage.currDamage);
         health = manage.currHealth;
+    }
+
+    public void Reset()
+    {
+        health = maxHealth;
+        stamina = maxStamina;
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Damage +2
   m_EditorClassIdentifier: 
   name: Damage +2
-  icon: {fileID: 21300000, guid: dac7b123f7aa9354c984e503d01c532c, type: 3}
+  icon: {fileID: 1801263428120863714, guid: 226c0b4acd05bb2429a8417caa0e0af5, type: 3}
   type: 3
   value: 2
   price: 0

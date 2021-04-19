@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ice +1
   m_EditorClassIdentifier: 
   name: Ice +1
-  icon: {fileID: 4337684191699249041, guid: 226c0b4acd05bb2429a8417caa0e0af5, type: 3}
+  icon: {fileID: -7855203551248514480, guid: 226c0b4acd05bb2429a8417caa0e0af5, type: 3}
   type: 7
   value: 1
   price: 0

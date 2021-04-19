@@ -8,6 +8,54 @@ TextureImporter:
   - first:
       213: -5379136541410412936
     second: AxeGoblin_1
+  - first:
+      213: 2542538664511725840
+    second: AxeGoblin_0
+  - first:
+      213: 5594206168920344096
+    second: AxeGoblin_1
+  - first:
+      213: 1643378303404005124
+    second: AxeGoblin_2
+  - first:
+      213: 6345081585895439907
+    second: AxeGoblin_3
+  - first:
+      213: -4933642079584244099
+    second: AxeGoblin_4
+  - first:
+      213: 6716200544856830439
+    second: AxeGoblin_5
+  - first:
+      213: -2722016767941776693
+    second: AxeGoblin_6
+  - first:
+      213: -8196730895151695391
+    second: AxeGoblin_7
+  - first:
+      213: 2226185108895359342
+    second: AxeGoblin_8
+  - first:
+      213: 6529897967006159677
+    second: AxeGoblin_9
+  - first:
+      213: -8503561003806592356
+    second: AxeGoblin_10
+  - first:
+      213: -477910227988598406
+    second: AxeGoblin_11
+  - first:
+      213: 3765164229381584084
+    second: AxeGoblin_12
+  - first:
+      213: -2722617890998502020
+    second: AxeGoblin_13
+  - first:
+      213: -2154160184230590193
+    second: AxeGoblin_14
+  - first:
+      213: -4120513098413166012
+    second: AxeGoblin_15
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -119,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81787a0b3a6c7c010800000000000000
-      internalID: 1209153431318005528
+      spriteID: 011eae5c179e84320800000000000000
+      internalID: 2542538664511725840
       vertices: []
       indices: 
       edges: []
@@ -140,8 +188,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 876b8e2c0d77955b0800000000000000
-      internalID: -5379136541410412936
+      spriteID: 026cbca0fdc92ad40800000000000000
+      internalID: 5594206168920344096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AxeGoblin_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407daf52cd37ec610800000000000000
+      internalID: 1643378303404005124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AxeGoblin_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32e7b2ea5124e0850800000000000000
+      internalID: 6345081585895439907
       vertices: []
       indices: 
       edges: []

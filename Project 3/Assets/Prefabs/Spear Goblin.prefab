@@ -75,9 +75,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1209153431318005528, guid: 409635b76d96c4841a22361cb61ce02b,
+  m_Sprite: {fileID: 8082417263053353483, guid: bf091dcd80650aa4691d75741a17469c,
     type: 3}
-  m_Color: {r: 0.9622642, g: 0.31318974, b: 0.31318974, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -144,17 +144,25 @@ MonoBehaviour:
   m_WindUpTime: 0.7
   m_drops:
   - {fileID: 2246785809802404415, guid: 5167d939246424597b0fd3a10ae793d8, type: 3}
-  - {fileID: 6382534973577748774, guid: 096e8746a80cd44318e776a9577d87a1, type: 3}
-  - {fileID: 1467008223606702234, guid: b9ad29a6efaaa496cbdf9c8e4f18ad12, type: 3}
-  - {fileID: 5953775104769130463, guid: e389437c108954e0a8c432fc250aa119, type: 3}
-  - {fileID: 5953775104769130463, guid: 8201aa34c93c7474aa575f2616c41caf, type: 3}
-  - {fileID: 5953775104769130463, guid: d1ab0ecf9b1294380bde11002b53eea6, type: 3}
   - {fileID: 7918866129947732927, guid: 80868b36764fb4067a1f1d6740d69ca3, type: 3}
   - {fileID: 7918866129947732927, guid: e03c089f5cbc243ffbb6c08877585725, type: 3}
   - {fileID: 7918866129947732927, guid: 7d413551ff81f42c4953834d012c8eea, type: 3}
-  m_dropRate: 100
+  - {fileID: 6382534973577748774, guid: 096e8746a80cd44318e776a9577d87a1, type: 3}
+  - {fileID: 2006581650976767940, guid: fae798fb1b98f4d60b54dd5e9e191a1d, type: 3}
+  - {fileID: 3521193112739544197, guid: f0894ffa0923744099db887ec5a8f7cc, type: 3}
+  - {fileID: 693933843290352440, guid: 48dd8c3883c604c9291aa90be6c987f4, type: 3}
+  - {fileID: 5953775104769130463, guid: e389437c108954e0a8c432fc250aa119, type: 3}
+  - {fileID: 5953775104769130463, guid: 8201aa34c93c7474aa575f2616c41caf, type: 3}
+  - {fileID: 5953775104769130463, guid: d1ab0ecf9b1294380bde11002b53eea6, type: 3}
+  - {fileID: 1467008223606702234, guid: b9ad29a6efaaa496cbdf9c8e4f18ad12, type: 3}
+  - {fileID: 219251786670583412, guid: e3d1a040e57614ea085afda3c25ac3f6, type: 3}
+  m_dropRate: 50
   m_dropMinVal: 1
   m_dropMaxVal: 5
+  frozenColor: {r: 0, g: 0, b: 1, a: 0}
+  poisonedColor: {r: 0, g: 1, b: 0, a: 0}
+  isFrozen: 0
+  isPoisoned: 0
 --- !u!195 &6855048618800635648
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -187,7 +195,7 @@ Animator:
   m_GameObject: {fileID: 6855048618800635774}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0cdd4354ee9d5041b771b157d66fb00, type: 2}
+  m_Controller: {fileID: 9100000, guid: fd55cc447a17c06438c2683196e95f6c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

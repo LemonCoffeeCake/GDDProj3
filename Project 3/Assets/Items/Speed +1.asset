@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Speed +1
   m_EditorClassIdentifier: 
   name: Speed +1
-  icon: {fileID: 21300000, guid: 9fcdba34472713f4e8ebb27d82e9b449, type: 3}
+  icon: {fileID: -5971942374765049077, guid: 226c0b4acd05bb2429a8417caa0e0af5, type: 3}
   type: 4
   value: 1
   price: 0

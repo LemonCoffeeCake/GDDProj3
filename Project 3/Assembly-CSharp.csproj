@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\ItemUI.cs" />
      <Compile Include="Assets\Scripts\Lightning.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />
+     <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerStat.cs" />
      <Compile Include="Assets\Scripts\Shop.cs" />

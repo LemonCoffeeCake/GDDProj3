@@ -160,10 +160,28 @@ MonoBehaviour:
   timeUntilStaminaRecovers: 0.75
   staminaRecoveryPerSecond: 50
   rollStaminaCost: 20
+  swordSprite: {fileID: 3092833531882641099}
+  lightningPrefab: {fileID: 8699706074652388338, guid: 1dd5b5a3852174bf382754df84b60dec,
+    type: 3}
+  lightningRadius: 10
   damage:
     baseValue: 1
+    modifiers: []
   speed:
     baseValue: 5
+    modifiers: []
+  sword:
+    baseValue: 0
+    modifiers: []
+  poison:
+    baseValue: 0
+    modifiers: []
+  ice:
+    baseValue: 0
+    modifiers: []
+  lightning:
+    baseValue: 0
+    modifiers: []
   m_HUD: {fileID: 0}
 --- !u!50 &3092833531341961860
 Rigidbody2D:
