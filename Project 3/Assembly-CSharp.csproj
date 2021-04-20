@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\ArcherController.cs" />
     <Compile Include="Assets\Scripts\AxeEnemyController.cs" />
     <Compile Include="Assets\Scripts\BasicArrow.cs" />
+    <Compile Include="Assets\Scripts\BlackKnight.cs" />
     <Compile Include="Assets\Scripts\Chest.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />

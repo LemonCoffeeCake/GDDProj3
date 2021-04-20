@@ -13,10 +13,6 @@ public class ArcherController : EnemyController
     private GameObject arrowSpawnPoint;
     #endregion
 
-    #region Private Variables
-    private PlayerController playerController;
-    #endregion
-
     #region Attacking
     protected override IEnumerator AttackPlayer()
     {

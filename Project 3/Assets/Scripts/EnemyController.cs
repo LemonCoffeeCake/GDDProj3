@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     protected int m_Damage;
 
     [SerializeField]
-    private float m_MoveSpeed;
+    protected float m_MoveSpeed;
 
     [SerializeField]
     protected float m_Range;
@@ -119,31 +119,10 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Movement
-    private void NavMeshMove()
+    protected virtual void NavMeshMove()
     {
         Vector2 playerPos = cr_Player.transform.position;
         agent.SetDestination(playerPos);
-    }
-
-    private void Move()
-    {
-        Vector2 dir = cr_Player.transform.position - transform.position;
-        float ang = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        if (dir.x > 0)
-        {
-             GetComponent<SpriteRenderer>().flipX = false;
-        } else
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-        }
-        dir.Normalize();
-        Movement(dir);
-
-    }
-
-    private void Movement(Vector2 direction)
-    {
-        rb.MovePosition((Vector2)transform.position + (direction * m_MoveSpeed * Time.deltaTime));
     }
     #endregion
 
@@ -231,7 +210,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Collison
-    public void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject other = collision.collider.gameObject;
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
