@@ -13,6 +13,10 @@ public class ArcherController : EnemyController
     private GameObject arrowSpawnPoint;
     #endregion
 
+    #region Private Variables
+    private PlayerController playerController;
+    #endregion
+
     #region Attacking
     protected override IEnumerator AttackPlayer()
     {
@@ -31,8 +35,11 @@ public class ArcherController : EnemyController
             elapsed += Time.deltaTime;
             yield return null;
         }
+
         anim.SetBool("Attacking", false);
+
         Rigidbody2D rbPlayer = cr_Player.GetComponent<Rigidbody2D>();
+
         float playerX = cr_Player.transform.position.x;
         float playerY = cr_Player.transform.position.y;
         float playerVeloX = rbPlayer.velocity.x;
@@ -47,10 +54,17 @@ public class ArcherController : EnemyController
         float t2 = (-b - Mathf.Sqrt(Mathf.Pow(b, 2) - (4 * a * c))) / (2 * a);
         float tActual = Mathf.Max(t1, t2);
         float X = tActual * rbPlayer.velocity.x + cr_Player.transform.position.x;
-        float Y = tActual * rbPlayer.velocity.y + cr_Player.transform.position.y; 
+        float Y = tActual * rbPlayer.velocity.y + cr_Player.transform.position.y;
+
+        if (float.IsNaN(X) || float.IsNaN(Y))
+        {
+            X = cr_Player.transform.position.x;
+            Y = cr_Player.transform.position.y;
+        }
 
         GameObject projectile = Instantiate(arrow, arrowSpawnPoint.transform.position, Quaternion.identity);
         projectile.GetComponent<BasicArrow>().setup((new Vector3(X, Y, 0) - transform.position).normalized);
+        
         // Destroy(projectile, 2.0f);
         
         canAttack = false; 

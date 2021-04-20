@@ -62,6 +62,7 @@ public class EnemyController : MonoBehaviour
 
     #region Cached Region
     protected GameObject cr_Player;
+    protected PlayerController playerController;
     #endregion
 
     #region Initialization
@@ -76,6 +77,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         cr_Player = GameObject.FindWithTag("Player");
+        playerController = cr_Player.GetComponent<PlayerController>();
         distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;

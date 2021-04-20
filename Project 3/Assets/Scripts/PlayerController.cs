@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private HudController m_HUD;
+    
+    public bool getRollStatus()
+    {
+        return isRolling;
+    }
 
     void Awake(){
         if (instance == null) {

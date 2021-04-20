@@ -29,14 +29,12 @@ public class BasicArrow : MonoBehaviour
 
     #region Private Variables
     private Vector3 direction;
-    private GameObject player;
     #endregion
 
     #region Initialization
     private void Awake()
     {
         StartCoroutine(Countdown());
-        player = GameObject.FindWithTag("Player");
     }
     #endregion
 
@@ -61,12 +59,11 @@ public class BasicArrow : MonoBehaviour
     #endregion
 
     #region Attacking
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject other = collision.collider.gameObject;
+        GameObject other = collision.gameObject;
         if (other.CompareTag("Player"))
         {
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
             other.GetComponent<PlayerController>().TakeDamage(m_Damage);
             Destroy(gameObject);
         }
@@ -74,6 +71,7 @@ public class BasicArrow : MonoBehaviour
     public void setup(Vector3 dir)
     {
         direction = dir;
+        transform.Rotate(0.0f, 0.0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
     }
     #endregion
 }
