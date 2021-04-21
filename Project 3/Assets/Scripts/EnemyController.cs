@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     #region Editor Variables
     [SerializeField]
-    private float m_Health;
+    protected float m_Health;
 
     [SerializeField]
     protected int m_Damage;
@@ -137,7 +137,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         DropItem();
         Destroy(gameObject);
@@ -145,7 +145,7 @@ public class EnemyController : MonoBehaviour
 
     private void DropItem()
     {
-        // TODO: add RNG 
+        // TODO: add RNG
         if (m_drops.Length != 0)
         {
             float isDrop = Random.Range(0f, 100f);
@@ -153,8 +153,8 @@ public class EnemyController : MonoBehaviour
             {
                 int index = Random.Range(0, m_drops.Length);
                 ItemPickup drop = Instantiate(m_drops[index], transform.position, Quaternion.identity);
-            }   
-        }     
+            }
+        }
     }
     #endregion
 
@@ -186,7 +186,7 @@ public class EnemyController : MonoBehaviour
         if (cr_Player.transform.position.x - transform.position.x < 0)
         {
             attackVector = -1 * attackVector;
-        } 
+        }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, attackVector, m_Range, LayerMask.GetMask("Player"));
         if (hit == true && hit.collider.CompareTag("Player"))
         {

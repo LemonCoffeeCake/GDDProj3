@@ -424,15 +424,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 225496063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc4bf053890ceb4ab02b531be1f9a14, type: 3}
+  m_Script: {fileID: 11500000, guid: 304cf069daf9c4b848b315f464a03fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 3
+  m_Health: 2
   m_Damage: 1
-  m_MoveSpeed: 3
-  m_Range: 1
-  m_AttackCooldown: 1
-  m_WindUpTime: 1
+  m_MoveSpeed: 1
+  m_Range: 0
+  m_AttackCooldown: 0
+  m_WindUpTime: 0
   m_drops: []
   m_dropRate: 0
   m_dropMinVal: 0
@@ -441,9 +441,7 @@ MonoBehaviour:
   poisonedColor: {r: 0, g: 0, b: 0, a: 0}
   isFrozen: 0
   isPoisoned: 0
-  m_ChargeSpeed: 10
-  m_ChargeCooldown: 10
-  m_ChargeDamage: 1
+  size: 3
 --- !u!1 &470523505
 GameObject:
   m_ObjectHideFlags: 0
