@@ -66,8 +66,8 @@ public class DemonBoss : EnemyController
     {
         isFrozen = true;
         agent.speed = 0;
-        float elapsed = 0;
         canMove = false;
+        float elapsed = 0;
         while (elapsed < m_SlamRange && !isFrozen)
         {
             elapsed += Time.deltaTime;
@@ -96,6 +96,7 @@ public class DemonBoss : EnemyController
             yield return null;
         }
         isFrozen = false;
+        canMove = true;
         agent.speed = m_MoveSpeed;
         StartCoroutine(SlamCooldown());
     }
