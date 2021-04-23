@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DemonBoss : EnemyController
+public class DemonBoss : ArcherController
 {
     #region Editor Variables
     [SerializeField]
