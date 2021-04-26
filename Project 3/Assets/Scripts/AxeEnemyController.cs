@@ -39,6 +39,7 @@ public class AxeEnemyController : EnemyController
             }
         }
         canAttack = false;
+        audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackCooldown());
     }
     #endregion

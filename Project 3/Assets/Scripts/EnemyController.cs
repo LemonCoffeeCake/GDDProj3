@@ -25,22 +25,32 @@ public class EnemyController : MonoBehaviour
     protected float m_WindUpTime;
 
     [SerializeField]
-    private ItemPickup[] m_drops;
+    protected ItemPickup[] m_drops;
 
     [SerializeField]
-    private float m_dropRate;
+    protected float m_dropRate;
 
     [SerializeField]
-    private float m_dropMinVal;
+    protected float m_dropMinVal;
 
     [SerializeField]
-    private float m_dropMaxVal;
+    protected float m_dropMaxVal;
 
     [SerializeField]
-    private Color frozenColor;
+    protected Color frozenColor;
 
     [SerializeField]
-    private Color poisonedColor;
+    protected Color poisonedColor;
+
+    [SerializeField]
+    protected AudioClip attackSound;
+
+
+    [SerializeField]
+    protected AudioClip hurtSound;
+
+    [SerializeField]
+    protected AudioClip deathSound;
 
     #endregion
 
@@ -53,11 +63,12 @@ public class EnemyController : MonoBehaviour
     protected NavMeshAgent agent;
     protected Animator anim;
     protected SpriteRenderer spriteR;
-    public bool isFrozen;
-    public bool isPoisoned;
+    protected bool isFrozen;
+    protected bool isPoisoned;
     protected Coroutine frozenIE;
     protected Coroutine poisonIE;
     protected Coroutine updatePoisonIE;
+    protected AudioSource audioSource;
     #endregion
 
     #region Cached Region
@@ -88,6 +99,7 @@ public class EnemyController : MonoBehaviour
         spriteR = GetComponent<SpriteRenderer>();
         frozenColor = new Color(frozenColor.r, frozenColor.g, frozenColor.b, 255);
         poisonedColor = new Color(poisonedColor.r, poisonedColor.g, poisonedColor.b, 255);
+        audioSource = GetComponent<AudioSource>();
     }
     #endregion
 
@@ -130,6 +142,15 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        float f = Random.Range(0.0f, 1.0f);
+        if (f < 0.5f)
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+        else
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
         m_Health -= amount;
         if (m_Health <= 0)
         {
@@ -193,6 +214,7 @@ public class EnemyController : MonoBehaviour
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         }
         canAttack = false;
+        audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackCooldown());
     }
 

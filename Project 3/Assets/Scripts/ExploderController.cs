@@ -33,6 +33,7 @@ public class ExploderController : EnemyController
         if (other.CompareTag("Player")) {
             other.GetComponent<PlayerController>().TakeDamage(m_Damage);
             TakeDamage(m_Health);
+            audioSource.PlayOneShot(attackSound);
         }
     }
 }

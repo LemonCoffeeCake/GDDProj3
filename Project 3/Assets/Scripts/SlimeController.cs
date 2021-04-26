@@ -34,6 +34,7 @@ public class SlimeController : EnemyController
         }
         if (other.CompareTag("Player")) {
             other.GetComponent<PlayerController>().TakeDamage(m_Damage);
+            audioSource.PlayOneShot(attackSound);
         }
     }
 

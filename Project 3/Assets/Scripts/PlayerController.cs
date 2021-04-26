@@ -61,7 +61,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private HudController m_HUD;
-    
+
+    private AudioSource audioSource;
+    [SerializeField]
+    protected AudioClip attackSound;
+
+    [SerializeField]
+    protected AudioClip hurtSound;
+
+    [SerializeField]
+    protected AudioClip rollSound;
+
     public bool getRollStatus()
     {
         return isRolling;
@@ -90,6 +100,8 @@ public class PlayerController : MonoBehaviour
         initialXScale = transform.localScale.x;
         anim = GetComponent<Animator>();
         swordInitialScale = swordSprite.transform.localScale;
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -203,19 +215,22 @@ public class PlayerController : MonoBehaviour
 
     private void RotateWeaponToMousePosition(bool lerp)
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 objectPos = Camera.main.WorldToScreenPoint(weaponCenter.position);
-        mousePos.x = mousePos.x - objectPos.x;
-        mousePos.y = mousePos.y - objectPos.y;
-        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        Quaternion desRot = Quaternion.Euler(new Vector3(0, 0, angle - 90f));
-        if (!lerp)
+        if (Time.timeScale != 0)
         {
-            weaponCenter.rotation = desRot;
-        }
-        else
-        {
-            weaponCenter.rotation = Quaternion.Lerp(weaponCenter.rotation, desRot, Time.deltaTime * 20f);
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 objectPos = Camera.main.WorldToScreenPoint(weaponCenter.position);
+            mousePos.x = mousePos.x - objectPos.x;
+            mousePos.y = mousePos.y - objectPos.y;
+            float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+            Quaternion desRot = Quaternion.Euler(new Vector3(0, 0, angle - 90f));
+            if (!lerp)
+            {
+                weaponCenter.rotation = desRot;
+            }
+            else
+            {
+                weaponCenter.rotation = Quaternion.Lerp(weaponCenter.rotation, desRot, Time.deltaTime * 20f);
+            }
         }
     }
 
@@ -230,6 +245,7 @@ public class PlayerController : MonoBehaviour
         staminaRecoveryTimer = 0f;
         m_HUD.UpdateStamina(stamina / maxStamina);
         anim.SetTrigger("RollTrigger");
+        audioSource.PlayOneShot(rollSound);
     }
 
     private void Attack()
@@ -309,6 +325,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         isAttacking = true;
+        audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackFirstHalf(attackFirstHalfDuration, attackSecondHalfDuration, attackCoolDown));
     }
 
@@ -356,6 +373,7 @@ public class PlayerController : MonoBehaviour
         {
             health = Mathf.Clamp(health - amount, 0, maxHealth);
             m_HUD.UpdateHealth(health);
+            audioSource.PlayOneShot(hurtSound);
             if (health <= 0)
             {
                 Death();

@@ -63,7 +63,8 @@ public class ArcherController : EnemyController
         
         // Destroy(projectile, 2.0f);
         
-        canAttack = false; 
+        canAttack = false;
+        audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackCooldown());
     }
     #endregion

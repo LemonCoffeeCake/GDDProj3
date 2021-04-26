@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
     public TextMeshProUGUI levelText;
     private int levelsPassed;
-
     private GameManager()
     {
     }

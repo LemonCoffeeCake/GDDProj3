@@ -5,7 +5,6 @@ using TMPro;
 
 public class Shop : Interactable
 {
-    public PlayerController player;
     public static Shop instance;
     public List<Item> items = new List<Item>();
     public bool isOpen;
@@ -34,7 +33,7 @@ public class Shop : Interactable
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) > 3f)
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) > 3f)
         {
             isOpen = false;
             shopUI.SetActive(false);
@@ -51,11 +50,11 @@ public class Shop : Interactable
         items.Add(item);
         if (item.type == Item.Type.DamageUp)
         {
-            player.damage.AddModifier(item.value);
+            PlayerController.instance.damage.AddModifier(item.value);
         }
         else if (item.type == Item.Type.SpeedUp)
         {
-            player.speed.AddModifier(item.value);
+            PlayerController.instance.speed.AddModifier(item.value);
         }
         if (isOpen)
         {
@@ -67,11 +66,11 @@ public class Shop : Interactable
     {
         if (item.type == Item.Type.DamageUp)
         {
-            player.damage.RemoveModifier(item.value);
+            PlayerController.instance.damage.RemoveModifier(item.value);
         }
         else if (item.type == Item.Type.SpeedUp)
         {
-            player.speed.RemoveModifier(item.value);
+            PlayerController.instance.speed.RemoveModifier(item.value);
         }
         items.Remove(item);
         if (isOpen)
@@ -85,11 +84,11 @@ public class Shop : Interactable
         Item item = items[index];
         if (item.type == Item.Type.DamageUp)
         {
-            player.damage.RemoveModifier(item.value);
+            PlayerController.instance.damage.RemoveModifier(item.value);
         }
         else if (item.type == Item.Type.SpeedUp)
         {
-            player.speed.RemoveModifier(item.value);
+            PlayerController.instance.speed.RemoveModifier(item.value);
         }
         items.Remove(item);
         if (isOpen)
@@ -105,20 +104,20 @@ public class Shop : Interactable
         {
             if (item.type == Item.Type.HealthPotion)
             {
-                player.TakeDamage(
+                PlayerController.instance.TakeDamage(
                     Mathf.RoundToInt(-item.value));
             }
             else if (item.type == Item.Type.StaminaPotion)
             {
-                player.RecoverStamina();
+                PlayerController.instance.RecoverStamina();
             }
             else if (item.type == Item.Type.DamageUp)
             {
-                player.damage.RemoveModifier(item.value);
+                PlayerController.instance.damage.RemoveModifier(item.value);
             }
             else if (item.type == Item.Type.SpeedUp)
             {
-                player.speed.RemoveModifier(item.value);
+                PlayerController.instance.speed.RemoveModifier(item.value);
             }
             items.Remove(item);
             if (item.type != Item.Type.HealthPotion && item.type != Item.Type.StaminaPotion)
