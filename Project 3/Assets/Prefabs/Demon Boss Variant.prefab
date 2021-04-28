@@ -138,10 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9cd89f8c0555046b66a323b3a8ddba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 2
+  m_Health: 20
   m_Damage: 2
   m_MoveSpeed: 2
-  m_Range: 2
+  m_Range: 5
   m_AttackCooldown: 1
   m_WindUpTime: 1
   m_drops: []
@@ -159,6 +159,9 @@ MonoBehaviour:
   m_SlamRange: 3
   m_SlamCooldown: 5
   m_SlamTime: 2
+  m_DamageBoost: 1
+  m_DamageBoostTime: 5
+  m_DamageBoostCooldown: 10
 --- !u!1001 &4421987901782715078
 PrefabInstance:
   m_ObjectHideFlags: 0

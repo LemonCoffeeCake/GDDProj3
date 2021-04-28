@@ -6,9 +6,6 @@ public class BasicArrow : MonoBehaviour
 {
     #region Editor Variables
     [SerializeField]
-    private int m_Damage;
-
-    [SerializeField]
     private float m_Speed;
 
     [SerializeField]
@@ -29,6 +26,7 @@ public class BasicArrow : MonoBehaviour
 
     #region Private Variables
     private Vector3 direction;
+    private int m_Damage;
     #endregion
 
     #region Initialization
@@ -68,10 +66,11 @@ public class BasicArrow : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void setup(Vector3 dir)
+    public void setup(Vector3 dir, int damage)
     {
         direction = dir;
         transform.Rotate(0.0f, 0.0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        m_Damage = damage;
     }
     #endregion
 }

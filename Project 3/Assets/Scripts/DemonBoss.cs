@@ -16,10 +16,20 @@ public class DemonBoss : ArcherController
 
     [SerializeField]
     private int m_SlamTime;
+
+    [SerializeField]
+    private int m_DamageBoost;
+
+    [SerializeField]
+    private int m_DamageBoostTime;
+
+    [SerializeField]
+    private int m_DamageBoostCooldown;
     #endregion
 
     #region Private Variables
     private bool canSlam;
+    private bool canBoost;
     #endregion
 
     private void Awake()
@@ -29,6 +39,7 @@ public class DemonBoss : ArcherController
         canAttack = true;
         canMove = true;
         canSlam = true;
+        canBoost = true;
     }
 
     #region Updates
@@ -37,7 +48,11 @@ public class DemonBoss : ArcherController
         if (!isFrozen)
         {
             distToPlayer = Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position));
-            if (canMove && distToPlayer > m_Range)
+            if (canBoost)
+            {
+                canBoost = false;
+                activateAttackBoost();
+            } else if (canMove && distToPlayer > m_Range)
             {
                 if (cr_Player.transform.position.x - transform.position.x < 0)
                 {
@@ -67,14 +82,9 @@ public class DemonBoss : ArcherController
         isFrozen = true;
         agent.speed = 0;
         canMove = false;
+        canAttack = false;
         float elapsed = 0;
-        while (elapsed < m_SlamRange && !isFrozen)
-        {
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
         transform.position = transform.position + new Vector3(0, 2, 0);
-        elapsed = 0;
         while (elapsed < m_SlamTime)
         {
             elapsed += Time.deltaTime;
@@ -97,6 +107,7 @@ public class DemonBoss : ArcherController
         }
         isFrozen = false;
         canMove = true;
+        canAttack = true;
         agent.speed = m_MoveSpeed;
         StartCoroutine(SlamCooldown());
     }
@@ -110,6 +121,34 @@ public class DemonBoss : ArcherController
             yield return null;
         }
         canSlam = true;
+    }
+
+    private void activateAttackBoost()
+    {
+        m_Damage += m_DamageBoost;
+        m_SlamDamage += m_DamageBoost;
+        GetComponent<SpriteRenderer>().color = Color.red;
+        StartCoroutine(boostCooldown());
+    }
+
+    private IEnumerator boostCooldown()
+    {
+        float elapsed = 0;
+        while (elapsed < m_DamageBoostTime)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        elapsed = 0;
+        GetComponent<SpriteRenderer>().color = Color.blue;
+        m_Damage -= m_DamageBoost;
+        m_SlamDamage -= m_DamageBoost;
+        while (elapsed < m_DamageBoostCooldown)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        canBoost = true;
     }
     #endregion
 }

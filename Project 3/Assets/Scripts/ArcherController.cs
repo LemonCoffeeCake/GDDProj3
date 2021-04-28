@@ -59,7 +59,7 @@ public class ArcherController : EnemyController
         }
 
         GameObject projectile = Instantiate(arrow, arrowSpawnPoint.transform.position, Quaternion.identity);
-        projectile.GetComponent<BasicArrow>().setup((new Vector3(X, Y, 0) - transform.position).normalized);
+        projectile.GetComponent<BasicArrow>().setup((new Vector3(X, Y, 0) - transform.position).normalized, m_Damage);
         
         // Destroy(projectile, 2.0f);
         

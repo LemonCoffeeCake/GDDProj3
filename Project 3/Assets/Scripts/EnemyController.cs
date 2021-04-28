@@ -55,6 +55,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Private Variables
+    protected float maxHealth;
     protected Rigidbody2D rb;
     protected bool canAttack;
     protected bool canMove;
@@ -83,6 +84,7 @@ public class EnemyController : MonoBehaviour
         defaultCol = GetComponent<SpriteRenderer>().color;
         canAttack = true;
         canMove = true;
+        maxHealth = m_Health;
     }
 
     private void Start()
@@ -140,7 +142,7 @@ public class EnemyController : MonoBehaviour
 
     #region Health and Death
 
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         float f = Random.Range(0.0f, 1.0f);
         if (f < 0.5f)
