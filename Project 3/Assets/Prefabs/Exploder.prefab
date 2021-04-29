@@ -27,6 +27,25 @@ MonoBehaviour:
   attackSound: {fileID: 0}
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+--- !u!95 &2432918740227589812
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3261414629133334386}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d8f34457c994b049b331b74e2607dae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5710238477022429898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,6 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 225496064, guid: d61bf83ff8c5e19439604517b9b96461, type: 3}
+    - {fileID: 7096556971246073287, guid: d61bf83ff8c5e19439604517b9b96461, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d61bf83ff8c5e19439604517b9b96461, type: 3}
 --- !u!1 &3261414629133334386 stripped
 GameObject:

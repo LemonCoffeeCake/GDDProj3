@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8226597068758585039}
   - component: {fileID: 8226597068758585038}
   - component: {fileID: 8226597068758585037}
-  - component: {fileID: 8226597068758585036}
   - component: {fileID: 8226597068758585027}
+  - component: {fileID: 8959435925016107403}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Interactable
@@ -134,25 +134,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8226597068758585036
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8226597068758585026}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd6b0ef0c86137c4c821702cce04e900, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8226597068758585027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +157,25 @@ MonoBehaviour:
   ItemPrefab: {fileID: 1690081476867461250, guid: fb1f6551d002243b19074c82860e0b5e,
     type: 3}
   Grid: {fileID: 0}
+--- !u!95 &8959435925016107403
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226597068758585026}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ae5232936a06904094a8da1bae18c8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8226597069736701814
 GameObject:
   m_ObjectHideFlags: 0
