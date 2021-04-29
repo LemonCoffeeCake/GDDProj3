@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     public int currHealth;
     public Stat currDamage;
     public Stat currSpeed;
-    private string[] levels = new string[6] { "Level1", "Level3", "Level4", "Level5", "Level6", "Level7" };
+    private string[] levels1 = new string[6] { "Level1", "Level3", "Level4", "Level5", "Level6", "Level7" };
+    private string[] levels2 = new string[6] { "Level8", "Level9", "Level10", "Level11", "Level12", "Level13" };
     public GameObject PauseMenu;
     public bool isPaused;
     public TextMeshProUGUI levelText;
@@ -70,14 +71,18 @@ public class GameManager : MonoBehaviour
         PlayerBeforeChange = GameObject.FindWithTag("Player");
         PlayerBeforeChange.GetComponent<PlayerController>().ExportStats(instance);
         numRoomsComplete += 1;
-        if (numRoomsComplete % 6 == 0)
-        {
+        if (numRoomsComplete == 7 || numRoomsComplete == 15) {
             SceneManager.LoadScene("Level2");
-        }
-        else
-        {
+        } else if (numRoomsComplete == 8) {
+            SceneManager.LoadScene("Level14");
+        } else if (numRoomsComplete == 16) {
+            SceneManager.LoadScene("Level15");
+        } else if (numRoomsComplete < 7) {
             System.Random rnd = new System.Random();
-            SceneManager.LoadScene(levels[rnd.Next(0, 6)]);
+            SceneManager.LoadScene(levels1[rnd.Next(0, 6)]);
+        } else {
+            System.Random rnd = new System.Random();
+            SceneManager.LoadScene(levels2[rnd.Next(0, 6)]);
         }
         PlayerAfterChange = GameObject.FindWithTag("Player");
         PlayerAfterChange.GetComponent<PlayerController>().ImportStats(instance);
