@@ -40,6 +40,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 7096556971246073282, guid: d61bf83ff8c5e19439604517b9b96461,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7282886668606283007, guid: e750a25680112a347ae170f507b97722,
+        type: 3}
     - target: {fileID: 7096556971246073284, guid: d61bf83ff8c5e19439604517b9b96461,
         type: 3}
       propertyPath: m_BodyType
