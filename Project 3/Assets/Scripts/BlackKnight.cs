@@ -34,6 +34,9 @@ public class BlackKnight : EnemyController
 
     [SerializeField]
     private int m_SecondPhaseDamage;
+
+    [SerializeField]
+    private RectTransform hpBar;
     #endregion
 
     #region Private Variables
@@ -45,6 +48,7 @@ public class BlackKnight : EnemyController
     private Vector3 chargeDestination;
     private float damageReduction;
     private float moveSpeed;
+    private float hpInitialWidth;
     #endregion
 
     #region Awake
@@ -61,6 +65,7 @@ public class BlackKnight : EnemyController
         maxHealth = m_Health;
         damageReduction = m_FirstPhaseDamageReduction;
         moveSpeed = m_MoveSpeed;
+        hpInitialWidth = hpBar.sizeDelta.x;
     }
     #endregion
 
@@ -145,10 +150,16 @@ public class BlackKnight : EnemyController
             audioSource.PlayOneShot(deathSound);
         }
         m_Health -= (amount * damageReduction);
+        UpdateHealth(m_Health / maxHealth);
         if (m_Health <= 0)
         {
             Death();
         }
+    }
+
+    public void UpdateHealth(float percent)
+    {
+        hpBar.sizeDelta = new Vector2(hpInitialWidth * percent, hpBar.sizeDelta.y);
     }
     #endregion
 

@@ -25,11 +25,15 @@ public class DemonBoss : ArcherController
 
     [SerializeField]
     private int m_DamageBoostCooldown;
+
+    [SerializeField]
+    private RectTransform hpBar;
     #endregion
 
     #region Private Variables
     private bool canSlam;
     private bool canBoost;
+    private float hpInitialWidth;
     #endregion
 
     private void Awake()
@@ -40,6 +44,8 @@ public class DemonBoss : ArcherController
         canMove = true;
         canSlam = true;
         canBoost = true;
+        maxHealth = m_Health;
+        hpInitialWidth = hpBar.sizeDelta.x;
     }
 
     #region Updates
@@ -75,6 +81,31 @@ public class DemonBoss : ArcherController
         }
     }
     #endregion
+
+    public override void TakeDamage(float amount)
+    {
+        float f = Random.Range(0.0f, 1.0f);
+        if (f < 0.5f)
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+        else
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+        m_Health -= amount;
+        UpdateHealth(m_Health / maxHealth);
+        if (m_Health <= 0)
+        {
+            Death();
+        }
+    }
+
+    public void UpdateHealth(float percent)
+    {
+        print(percent);
+        hpBar.sizeDelta = new Vector2(hpInitialWidth * percent, hpBar.sizeDelta.y);
+    }
 
     #region Attacking
     private IEnumerator Slam()
