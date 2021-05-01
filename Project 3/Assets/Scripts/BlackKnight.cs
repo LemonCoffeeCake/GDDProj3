@@ -94,6 +94,7 @@ public class BlackKnight : EnemyController
                 chargeDirection = (cr_Player.transform.position - transform.position).normalized;
                 chargeDestination = cr_Player.transform.position;
                 isCharging = true;
+                anim.SetBool("Charging", true);
                 canCharge = false;
                 if (cr_Player.transform.position.x - transform.position.x < 0)
                 {
@@ -179,12 +180,14 @@ public class BlackKnight : EnemyController
         {
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_ChargeDamage);
             isCharging = false;
+            anim.SetBool("Charging", false);
             StartCoroutine(ChargeCooldown());
             return;
         }
         if (Vector2.Distance(transform.position, chargeDestination) < 0.01f)
         {
             isCharging = false;
+            anim.SetBool("Charging", false);
             StartCoroutine(ChargeCooldown());
             return;
         }
@@ -205,7 +208,8 @@ public class BlackKnight : EnemyController
     {
         moveSpeed += m_SpeedBoost;
         m_ChargeSpeed += m_SpeedBoost;
-        GetComponent<SpriteRenderer>().color = Color.red;
+        //GetComponent<SpriteRenderer>().color = Color.red;
+        anim.SetBool("Buffing", true);
         StartCoroutine(boostCooldown());
     }
 
@@ -219,7 +223,8 @@ public class BlackKnight : EnemyController
         }
         moveSpeed -= m_SpeedBoost;
         m_ChargeSpeed -= m_SpeedBoost;
-        GetComponent<SpriteRenderer>().color = defaultCol;
+        //GetComponent<SpriteRenderer>().color = defaultCol;
+        anim.SetBool("Buffing", false);
         elapsed = 0;
         while (elapsed < m_SpeedBoostCooldown)
         {

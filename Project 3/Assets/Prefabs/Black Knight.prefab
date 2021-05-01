@@ -323,6 +323,11 @@ PrefabInstance:
       propertyPath: m_Height
       value: 0.83
       objectReference: {fileID: 0}
+    - target: {fileID: 7096556971246073287, guid: d61bf83ff8c5e19439604517b9b96461,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7428c1fd44ff8da45af3fcc56a870944, type: 2}
     - target: {fileID: 7096556971530429382, guid: d61bf83ff8c5e19439604517b9b96461,
         type: 3}
       propertyPath: m_LocalPosition.x
