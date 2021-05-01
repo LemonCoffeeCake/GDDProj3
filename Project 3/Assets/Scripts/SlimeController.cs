@@ -5,6 +5,7 @@ using UnityEngine;
 public class SlimeController : EnemyController
 {
     public int size;
+    public Sprite[] spriteList;
 
     private void FixedUpdate(){
         if (!isFrozen)
@@ -44,6 +45,8 @@ public class SlimeController : EnemyController
             GameObject child2 = Instantiate(gameObject, gameObject.transform.position + Vector3.right * 1.0f, Quaternion.identity);
             child1.GetComponent<SlimeController>().size -= 1;
             child2.GetComponent<SlimeController>().size -= 1;
+            child1.GetComponent<SpriteRenderer>().sprite = spriteList[size - 2];
+            child2.GetComponent<SpriteRenderer>().sprite = spriteList[size - 2];
         }
         Destroy(gameObject);
     }

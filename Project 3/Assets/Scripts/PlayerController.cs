@@ -373,7 +373,10 @@ public class PlayerController : MonoBehaviour
         {
             health = Mathf.Clamp(health - amount, 0, maxHealth);
             m_HUD.UpdateHealth(health);
-            audioSource.PlayOneShot(hurtSound);
+            if (amount > 0)
+            {
+                audioSource.PlayOneShot(hurtSound);
+            }
             if (health <= 0)
             {
                 Death();
