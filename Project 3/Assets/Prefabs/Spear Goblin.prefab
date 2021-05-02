@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Damage: 1
   m_MoveSpeed: 2
   m_Range: 1.1
-  m_AttackCooldown: 0.5
+  m_AttackCooldown: 1
   m_WindUpTime: 0.7
   m_drops:
   - {fileID: 2246785809802404415, guid: 5167d939246424597b0fd3a10ae793d8, type: 3}

@@ -31,9 +31,23 @@ public class ExploderController : EnemyController
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
         }
         if (other.CompareTag("Player")) {
-            other.GetComponent<PlayerController>().TakeDamage(m_Damage);
-            TakeDamage(m_Health);
-            audioSource.PlayOneShot(attackSound);
+            StartCoroutine(explodeWindUp());
         }
+    }
+
+    private IEnumerator explodeWindUp()
+    {
+        float elapsed = 0;
+        while (elapsed < m_WindUpTime)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        if (Mathf.Abs(Vector2.Distance(cr_Player.transform.position, transform.position)) <= m_Range)
+        {
+            cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
+        }
+        audioSource.PlayOneShot(attackSound);
+        TakeDamage(m_Health);
     }
 }

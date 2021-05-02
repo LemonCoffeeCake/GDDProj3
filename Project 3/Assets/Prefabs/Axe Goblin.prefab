@@ -179,12 +179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f941368a2f0d5f74ea11cb8231955e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 2
-  m_Damage: 1
+  m_Health: 3
+  m_Damage: 3
   m_MoveSpeed: 2
   m_Range: 1.1
-  m_AttackCooldown: 0.5
-  m_WindUpTime: 0.7
+  m_AttackCooldown: 1
+  m_WindUpTime: 1
   m_drops:
   - {fileID: 2246785809802404415, guid: 5167d939246424597b0fd3a10ae793d8, type: 3}
   - {fileID: 7918866129947732927, guid: 80868b36764fb4067a1f1d6740d69ca3, type: 3}
@@ -208,6 +208,7 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 4e89455da189b4b4b8232910214d20b9, type: 3}
   deathSound: {fileID: 8300000, guid: 7d3ec1f856cd3419884d7400fad9a23d, type: 3}
   attackCenter: {fileID: 5403699243329842114}
+  m_AttackArc: 70
 --- !u!82 &5397001357645616368
 AudioSource:
   m_ObjectHideFlags: 0

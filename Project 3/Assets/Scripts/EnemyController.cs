@@ -123,10 +123,24 @@ public class EnemyController : MonoBehaviour
                 }
                 NavMeshMove();
             }
-            else if (canAttack && distToPlayer <= m_Range)
+            else if (canAttack && distToPlayer <= m_Range && ((cr_Player.transform.position.x - transform.position.x <= 0 && spriteR.flipX == true) || 
+                (cr_Player.transform.position.x - transform.position.x >= 0 && spriteR.flipX == false)))
             {
                 canAttack = false;
+                canMove = false;
                 StartCoroutine(AttackPlayer());
+            }
+            else if (canMove)
+            {
+                if (cr_Player.transform.position.x - transform.position.x < 0)
+                {
+                    spriteR.flipX = true;
+                }
+                else
+                {
+                    spriteR.flipX = false;
+                }
+                NavMeshMove();
             }
         }
     }
@@ -206,23 +220,23 @@ public class EnemyController : MonoBehaviour
         }
         anim.SetBool("Attacking", false);
         Vector2 attackVector = new Vector2(m_Range, 0);
-        if (cr_Player.transform.position.x - transform.position.x < 0)
+        if (spriteR.flipX == true)
         {
             attackVector = -1 * attackVector;
         }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, attackVector, m_Range, LayerMask.GetMask("Player"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, attackVector.normalized, m_Range, LayerMask.GetMask("Player"));
         if (hit == true && hit.collider.CompareTag("Player"))
         {
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         }
         canAttack = false;
-        canMove = true;
         audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackCooldown());
     }
 
     protected IEnumerator AttackCooldown()
     {
+        canMove = true;
         float elapsed = 0;
         while (elapsed < m_AttackCooldown && !isFrozen)
         {
@@ -230,7 +244,6 @@ public class EnemyController : MonoBehaviour
             yield return null;
         }
         canAttack = true;
-        canMove = true;
     }
     #endregion
 

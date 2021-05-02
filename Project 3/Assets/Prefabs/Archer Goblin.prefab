@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Health: 2
-  m_Damage: 2
+  m_Damage: 1
   m_MoveSpeed: 5
   m_Range: 6
   m_AttackCooldown: 1
