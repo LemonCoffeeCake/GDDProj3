@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Level14");
         } else if (numRoomsComplete == 16) {
             SceneManager.LoadScene("Level15");
+        } else if (numRoomsComplete == 17) {
+            SceneManager.LoadScene("Win");
         } else if (numRoomsComplete < 7) {
             System.Random rnd = new System.Random();
             SceneManager.LoadScene(levels1[rnd.Next(0, 6)]);
