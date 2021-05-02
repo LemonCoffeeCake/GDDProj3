@@ -216,6 +216,7 @@ public class EnemyController : MonoBehaviour
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         }
         canAttack = false;
+        canMove = true;
         audioSource.PlayOneShot(attackSound);
         StartCoroutine(AttackCooldown());
     }
