@@ -70,8 +70,10 @@ public class GameManager : MonoBehaviour
         PlayerBeforeChange = GameObject.FindWithTag("Player");
         PlayerBeforeChange.GetComponent<PlayerController>().ExportStats(instance);
         numRoomsComplete += 1;
-        if (numRoomsComplete == 7 || numRoomsComplete == 15) {
+        if (numRoomsComplete == 7) {
             SceneManager.LoadScene("Level2");
+        } else if (numRoomsComplete == 15) {
+            SceneManager.LoadScene("HellShop");
         } else if (numRoomsComplete == 8) {
             SceneManager.LoadScene("Level14");
         } else if (numRoomsComplete == 16) {

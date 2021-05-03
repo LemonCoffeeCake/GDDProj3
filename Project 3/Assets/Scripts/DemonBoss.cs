@@ -121,6 +121,7 @@ public class DemonBoss : ArcherController
         agent.speed = 0;
         canMove = false;
         canAttack = false;
+        anim.SetBool("Slamming", true);
         float elapsed = 0;
         audioSource.PlayOneShot(m_JumpSound);
         transform.position = transform.position + new Vector3(0, 2, 0);
@@ -146,6 +147,7 @@ public class DemonBoss : ArcherController
             elapsed += Time.deltaTime;
             yield return null;
         }
+        anim.SetBool("Slamming", false);
         isFrozen = false;
         canMove = true;
         canAttack = true;
@@ -168,6 +170,7 @@ public class DemonBoss : ArcherController
     {
         m_Damage += m_DamageBoost;
         m_SlamDamage += m_DamageBoost;
+        anim.SetBool("Buffing", true);
         StartCoroutine(boostCooldown());
     }
 
@@ -179,6 +182,7 @@ public class DemonBoss : ArcherController
             elapsed += Time.deltaTime;
             yield return null;
         }
+        anim.SetBool("Buffing", false);
         elapsed = 0;
         m_Damage -= m_DamageBoost;
         m_SlamDamage -= m_DamageBoost;
