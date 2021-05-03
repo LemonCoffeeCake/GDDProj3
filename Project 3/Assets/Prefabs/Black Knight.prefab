@@ -265,7 +265,7 @@ MonoBehaviour:
   m_MoveSpeed: 1
   m_Range: 1
   m_AttackCooldown: 1
-  m_WindUpTime: 1
+  m_WindUpTime: 0.5
   m_drops: []
   m_dropRate: 0
   m_dropMinVal: 0

@@ -1,10 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DemonBoss : ArcherController
 {
     #region Editor Variables
+    [SerializeField]
+    private AudioClip m_JumpSound;
+
+    [SerializeField]
+    private AudioClip m_SlamSound;
+
     [SerializeField]
     private int m_SlamDamage;
 
@@ -115,6 +122,7 @@ public class DemonBoss : ArcherController
         canMove = false;
         canAttack = false;
         float elapsed = 0;
+        audioSource.PlayOneShot(m_JumpSound);
         transform.position = transform.position + new Vector3(0, 2, 0);
         while (elapsed < m_SlamTime)
         {
@@ -122,7 +130,9 @@ public class DemonBoss : ArcherController
             yield return null;
         }
         transform.position = transform.position - new Vector3(0, 2, 0);
+        audioSource.PlayOneShot(m_SlamSound);
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, m_SlamRange);
+
         for (int i = 0; i < hits.Length; i++)
         {
             if (hits[i].gameObject.CompareTag("Player"))
@@ -158,7 +168,6 @@ public class DemonBoss : ArcherController
     {
         m_Damage += m_DamageBoost;
         m_SlamDamage += m_DamageBoost;
-        GetComponent<SpriteRenderer>().color = Color.red;
         StartCoroutine(boostCooldown());
     }
 
@@ -171,7 +180,6 @@ public class DemonBoss : ArcherController
             yield return null;
         }
         elapsed = 0;
-        GetComponent<SpriteRenderer>().color = Color.blue;
         m_Damage -= m_DamageBoost;
         m_SlamDamage -= m_DamageBoost;
         while (elapsed < m_DamageBoostCooldown)

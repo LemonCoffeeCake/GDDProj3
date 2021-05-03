@@ -158,19 +158,14 @@ public class EnemyController : MonoBehaviour
 
     public virtual void TakeDamage(float amount)
     {
-        float f = Random.Range(0.0f, 1.0f);
-        if (f < 0.5f)
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-        else
-        {
-            audioSource.PlayOneShot(deathSound);
-        }
         m_Health -= amount;
         if (m_Health <= 0)
         {
+            audioSource.PlayOneShot(deathSound);
             Death();
+        } else
+        {
+            audioSource.PlayOneShot(hurtSound);
         }
     }
 

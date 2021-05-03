@@ -272,7 +272,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4294686516720050549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.256, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7096556971530429382}
@@ -386,12 +386,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9cd89f8c0555046b66a323b3a8ddba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 80
+  m_Health: 60
   m_Damage: 2
   m_MoveSpeed: 2
   m_Range: 5
   m_AttackCooldown: 1
-  m_WindUpTime: 1
+  m_WindUpTime: 0.5
   m_drops: []
   m_dropRate: 0
   m_dropMinVal: 0
@@ -401,8 +401,10 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: e677eb3576de64550a8399b54a3b866e, type: 3}
   hurtSound: {fileID: 8300000, guid: 4e89455da189b4b4b8232910214d20b9, type: 3}
   deathSound: {fileID: 8300000, guid: 7d3ec1f856cd3419884d7400fad9a23d, type: 3}
-  arrow: {fileID: 931099323112930738, guid: 7775ad3a401ef994a9e555d0ffe896bc, type: 3}
+  arrow: {fileID: 931099323112930738, guid: d13c9640a4189404d8a9405ec199a0d8, type: 3}
   arrowSpawnPoint: {fileID: 4294686516720050549}
+  m_JumpSound: {fileID: 8300000, guid: 9205edd88a8013642b020e094c2de2d9, type: 3}
+  m_SlamSound: {fileID: 8300000, guid: c69e59a25c4283c47b54dc1db9d0cc84, type: 3}
   m_SlamDamage: 3
   m_SlamRange: 3
   m_SlamCooldown: 5
@@ -473,6 +475,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6855048618800635649, guid: 78df0ddb70808e543bac9e3b0bf2f5b9,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2a5384e9295139b45981ed6b392adb11, type: 2}
     - target: {fileID: 6855048618800635650, guid: 78df0ddb70808e543bac9e3b0bf2f5b9,
         type: 3}
       propertyPath: m_BodyType

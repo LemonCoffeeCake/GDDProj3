@@ -47,7 +47,7 @@ public class ExploderController : EnemyController
         {
             cr_Player.GetComponent<PlayerController>().TakeDamage(m_Damage);
         }
-        audioSource.PlayOneShot(attackSound);
+        AudioSource.PlayClipAtPoint(deathSound, new Vector2(0, 0), 1.5f);
         TakeDamage(m_Health);
     }
 }
