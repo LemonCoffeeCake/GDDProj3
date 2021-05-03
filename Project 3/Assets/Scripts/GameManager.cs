@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     public GameObject PauseMenu;
     public bool isPaused;
     public TextMeshProUGUI levelText;
-    private int levelsPassed;
     private GameManager()
     {
     }
@@ -45,7 +44,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
             isPaused = true;
         }
-        if (levelsPassed == 0)
+        if (numRoomsComplete == 0)
         {
             levelText.text = "";
         }
@@ -58,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevelCount()
     {
-        levelsPassed = 0;
+        numRoomsComplete = 0;
         levelText.text = "";
 
     }
@@ -89,7 +88,6 @@ public class GameManager : MonoBehaviour
         PlayerAfterChange = GameObject.FindWithTag("Player");
         PlayerAfterChange.GetComponent<PlayerController>().ImportStats(instance);
         PlayerAfterChange.transform.position = new Vector3(0, 0, 0);
-        levelsPassed++;
-        levelText.text = "Levels Passed: " + levelsPassed;
+        levelText.text = "Levels Passed: " + numRoomsComplete;
     }
 }
